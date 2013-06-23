@@ -28,6 +28,9 @@ class CNPJParser {
   const nao_informada = 'Não informada';
   const asterisks = '********';
 
+  // array to hold all activities seen
+  private $activities = array();
+
   // array with fields title
   private $fields = array(
     self::cnpjtipo => 'cnpj/tipo',
@@ -62,10 +65,17 @@ class CNPJParser {
       $ret['code'] = trim($split[0]);
       $ret['text'] = trim($split[1]);
     }
+    $ret['text'] = str_replace('"','',$ret['text']);
+    $this->activities[$ret['code']] = $ret['text'];
     return $ret;
   }
 
-  public function Parse($html)
+  public function getActivities()
+  {
+    return $this->activities;
+  }
+
+  public function parse($html)
   {
     // array with final data
     $data = array();
@@ -73,7 +83,7 @@ class CNPJParser {
     // initialize info array
     $info = array();
     foreach($this->fields as $key => $value){
-      if($value=='atividades_secundarias' or $value=='natureza_juridica')
+      if($value=='atividade_principal' or $value=='atividades_secundarias' or $value=='natureza_juridica')
         $info[$key]['item'] = array();
       else
         $info[$key]['item'] = -1;
@@ -95,7 +105,7 @@ class CNPJParser {
       $item = $fonts->item($i);
       $text = trim($item->textContent);
       if(array_key_exists($text,$info)){
-        if($text==self::atividades_secundarias or $text==self::natureza_juridica)
+        if($text==self::atividade_principal or $text==self::atividades_secundarias or $text==self::natureza_juridica)
           $info[$text]['item'][] = $i+1;
         else if($info[$text]['item']==-1)
           $info[$text]['item'] = $i+1;
@@ -117,6 +127,11 @@ class CNPJParser {
         case 'cnpj/tipo':
           $data['cnpj'] = $item->childNodes->item(1)->textContent;
           $data['tipo'] = $item->childNodes->item(3)->textContent;
+          break;
+
+        case 'atividade_principal':
+          $text = preg_replace('!\s+!',' ',trim($item->textContent));
+          $data[$value['data']][] = $this->formatActivity($text);
           break;
 
         // may have multiple secundary activities
