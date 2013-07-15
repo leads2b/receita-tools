@@ -63,11 +63,11 @@ class CNPJClient {
     $html = $response->getBody()->__toString();
 
     // create DOM document (ignore errors)
-    $document = new DOMDocument();
+    $document = new \DOMDocument();
     @$document->loadHTML($html);
 
     // find the image with id imgcaptcha
-    $xpath = new DOMXPath($document);
+    $xpath = new \DOMXPath($document);
     $captcha = $xpath->query("//img[@id='imgcaptcha']");
 
     // get the captcha URL
