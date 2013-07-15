@@ -1,45 +1,46 @@
-Tools work with Receita's data
-==============================
+Tools to work with Receita's data
+=================================
 
-This set of tools will allow you to easily retrieve data from multiple
-companies. Those tool will also allow you to create a few CSV files to easily
-export the retrieved data and adapt it the way you want.
+This set of tools will allow you to easily retrieve data from Receita's website
+about multiple companies at once. Those tools also allow you to create a few CSV
+files to easily export the retrieved data.
 
 Usage / How it works
 --------------------
 
-All tools work based on the existence one CSV file. This file should be a CSV
-file containing one line for each company you want information from. Each line
-should contain in the first column some company identifier, and the second
-column should contain the company CNPJ. Here's an example of one line of this
-CSV.
+The data retriever program works based on a CSV file containing information
+about the CNPJs it should look for. This file should have two columns: the first
+should contain a company identifier, and the second column should contain the
+company CNPJ. Here's an example of one line of this CSV file (suppose this is
+the `cnpj.csv` file).
 
     "Company Identifier";"00.000.000/0000-00"
 
 Now you're ready to run the command that will allow you to retrieve information
-about those companies (supposing the CSV file is `cnpj.csv`).
+about those companies.
 
     $ php retrieve.php cnpj.csv
 
 This script will create a directory named `data` and will create one file to
-each CNPJ informed in the CSV file. The files created there are the barebone
-HTML file retrieved from the Receita's website.
+each CNPJ informed in that CSV file. The files created there are the barebone
+HTML file retrieved from Receita's website.
 
-Now you're ready to parse thos HTML files and generate the data you want. The
+Now you're ready to parse those HTML files and generate the data you want. The
 following scripts will parse all HTML files they find in the `data` directory
-and print to **stdout** the resulting CSV file.
+and print their resulting CSV file to **stdout**.
 
-To create a CSV with information from each company, except their activity, run
+To create a CSV file with information from each company, except their activity, run
 the program `company.php` like:
 
-    $ php company.php
+    $ php company.php > companies.csv
 
-To craete a CSV with information about the activities of each company, run the
+To create a CSV with information about the activities of each company, run the
 the program `activities.php` to each activity type you need, like:
 
-    $ php activities.php -m     # main activities
-    $ php activities.php -s     # secondary activities
+    $ php activities.php -m > main_activities.csv
+    $ php activities.php -s > secondary_activities.csv
 
-To finish the set of available tools, you may want to retrieve captchas from the
-Receita's website. To do this in an easy way, use the program `getcaptchas.php`.
-This program will write captchas to the `captchas/` directory.
+To finish the set of available tools, if you want to retrieve captchas from the
+Receita's website there's the program `getcaptchas.php`. You can run it until
+you heve enough captchas to work with. This program will write captchas to the
+`captchas/` directory.
