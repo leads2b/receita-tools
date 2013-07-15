@@ -58,7 +58,7 @@ class CNPJParser {
   {
     $ret = array();
     if($text==self::nao_informada or $text==self::asterisks){
-      $ret['code'] = '00';
+      $ret['code'] = '00.00-0-00';
       $ret['text'] = $text;
     } else {
       $split = explode(' - ',$text);
