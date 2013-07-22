@@ -13,16 +13,41 @@ class CNPJClient {
   // attributes
   private $client;
   private $verbose;
+  private $base;
+
+  // temp files
+  private $captcha;
+  private $filter;
+  private $tessout;
 
   public function __construct($cnpj, $verbose=false)
   {
     $this->cnpj    = $cnpj;
     $this->verbose = $verbose;
+    $this->base    = dirname(__FILE__);
     $this->client  = new Client(self::receitaURL,array('redirect.disable' => true));
 
     // add the cookie plugin (so cookies are kept beetwen requests)
     $cookiePlugin = new CookiePlugin(new ArrayCookieJar());
     $this->client->addSubscriber($cookiePlugin);
+
+    // create some temporary files for captcha management
+    $this->captcha = tempnam(sys_get_temp_dir(),'cap');
+    $this->filter  = tempnam(sys_get_temp_dir(),'fil');
+    $this->tessout = tempnam(sys_get_temp_dir(),'tes');
+
+    if(!$this->captcha or !$this->filter or !$this->tessout)
+      return false;
+  }
+
+  public function __destruct()
+  {
+    @unlink($this->captcha);
+    @unlink($this->captcha.'.gif');
+    @unlink($this->filter);
+    @unlink($this->filter.'.gif');
+    @unlink($this->tessout);
+    @unlink($this->tessout.'.txt');
   }
 
   private function fix_captcha($text)
@@ -47,6 +72,13 @@ class CNPJClient {
       if($header[0]=='Location')
         return trim($header[1]);
     }
+    return false;
+  }
+
+  private function filter($file)
+  {
+    $img = @imagecreatefromgif($file);
+    if(!$img) return false;
     return false;
   }
 
@@ -78,20 +110,19 @@ class CNPJClient {
     if($response->getStatusCode()!=200) return false;
 
     $img = $response->getBody()->__toString();
-    $file = fopen('captcha.gif','w');
+    $file = fopen($this->captcha.'.gif','w');
     fwrite($file,$img);
     fclose($file);
+
+    // filter
+    system('python "'.$this->base.'/CaptchaFilter.py" "'.$this->captcha.'.gif" "'.$this->filter.'.gif"');
+    system('tesseract "'.$this->filter.'.gif" "'.$this->tessout.'" &>/dev/null');
+    $captcha_text = trim(file_get_contents($this->tessout.'.txt'));
+    $captcha_text = $this->fix_captcha($captcha_text);
 
     // find the form viewstate input
     $viewstate = $xpath->query("//input[@id='viewstate']");
     $viewstate = $viewstate->item(0)->attributes->getNamedItem('value')->value;
-
-    // filter
-    system('python filter.py captcha.gif');
-    system('tesseract filtered.gif out');
-
-    $captcha_text = trim(file_get_contents('out.txt'));
-    $captcha_text = $this->fix_captcha($captcha_text);
 
     if($this->verbose)
       echo "Trying captcha: ".$captcha_text."\n";
