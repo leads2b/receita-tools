@@ -42,5 +42,5 @@ the program `activities.php` to each activity type you need, like:
 
 To finish the set of available tools, if you want to retrieve captchas from the
 Receita's website there's the program `getcaptchas.php`. You can run it until
-you heve enough captchas to work with. This program will write captchas to the
+you have enough captchas to work with. This program will write captchas to the
 `captchas/` directory.
