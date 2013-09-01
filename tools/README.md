@@ -3,7 +3,7 @@ Tools to work with Receita's data
 
 This set of tools will allow you to easily retrieve data from Receita's website
 about multiple companies at once. Those tools also allow you to create a few CSV
-files to easily export the retrieved data.
+files to easily import the retrieved data where you want.
 
 Usage / How it works
 --------------------
@@ -11,7 +11,7 @@ Usage / How it works
 The data retriever program works based on a CSV file containing information
 about the CNPJs it should look for. This file should have two columns: the first
 should contain a company identifier, and the second column should contain the
-company CNPJ. Here's an example of one line of this CSV file (suppose this is
+company's CNPJ. Here's an example of one line of this CSV file (suppose this is
 the `cnpj.csv` file).
 
     "Company Identifier";"00.000.000/0000-00"
@@ -23,7 +23,7 @@ about those companies.
 
 This script will create a directory named `data` and will create one file to
 each CNPJ informed in that CSV file. The files created there are the barebone
-HTML file retrieved from Receita's website.
+HTML files retrieved from Receita's website.
 
 Now you're ready to parse those HTML files and generate the data you want. The
 following scripts will parse all HTML files they find in the `data` directory
