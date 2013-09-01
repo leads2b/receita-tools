@@ -13,6 +13,7 @@ class CNPJClient {
   // attributes
   private $client;
   private $verbose;
+  private $captchaOnly;
   private $base;
 
   // temp files
@@ -20,10 +21,14 @@ class CNPJClient {
   private $filter;
   private $tessout;
 
-  public function __construct($cnpj, $verbose=false)
+  public function __construct($cnpj, $verbose=false, $captchaOnly=false)
   {
-    $this->cnpj    = $cnpj;
-    $this->verbose = $verbose;
+    // store attributes
+    $this->cnpj        = $cnpj;
+    $this->verbose     = $verbose;
+    $this->captchaOnly = $captchaOnly;
+
+    // base directory and Guzzle cliente storage
     $this->base    = dirname(__FILE__);
     $this->client  = new Client(self::receitaURL,array('redirect.disable' => true));
 
@@ -113,6 +118,10 @@ class CNPJClient {
     $file = fopen($this->captcha.'.gif','w');
     fwrite($file,$img);
     fclose($file);
+
+    // stop processing if only needs the captcha (return the captcha path)
+    if($this->captchaOnly)
+      return $this->captcha.'.gif';
 
     // filter
     system('python "'.$this->base.'/CaptchaFilter.py" "'.$this->captcha.'.gif" "'.$this->filter.'.gif"');
