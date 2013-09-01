@@ -34,7 +34,7 @@ the program `company.php` like:
 
     $ php company.php > companies.csv
 
-To create a CSV with information about the activities of each company, run the
+To create a CSV with information about the activities of each company, run
 the program `activities.php` to each activity type you need, like:
 
     $ php activities.php -m > main_activities.csv
