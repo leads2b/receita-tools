@@ -29,20 +29,7 @@ if (!(is_dir('data') && is_readable('data'))) {
 $parser = new Receita\CNPJParser();
 
 // data array
-$cnpjData = array();
-
-// open data directory and check each file
-if($handle = opendir('data')){
-  while (false !== ($file = readdir($handle))){
-    $path = 'data/'.$file;
-    if(is_file($path)){
-      $cnpj = basename($path,'.html');
-      $data = file_get_contents($path);
-      $cnpjData[$cnpj] = $parser->parse($data);
-    }
-  }
-  closedir($handle);
-}
+$cnpjData = find_parse_data($parser);
 
 // write output csv file to stdout
 $out = fopen('php://output','w');
