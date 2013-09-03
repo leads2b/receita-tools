@@ -35,10 +35,15 @@ the program `company.php` like:
     $ php company.php > companies.csv
 
 To create a CSV with information about the activities of each company, run
-the program `activities.php` to each activity type you need, like:
+the program `activities.php` to each activity type you need. You can also list
+all activities found by the parser along the way. Use it like:
 
     $ php activities.php -m > main_activities.csv
     $ php activities.php -s > secondary_activities.csv
+    $ php activities.php -l > list_activities.csv
+    
+Refer to [this](https://github.com/vkruoso/receita-tools/commit/2b18453ba156a680e9b766b06d8ad74a6f12ed8d)
+commit to learn a bit more about how the activities files are created.
 
 To finish the set of available tools, if you want to retrieve captchas from the
 Receita's website there's the program `getcaptchas.php`. You can run it until
