@@ -17,7 +17,9 @@ Needed software
 
 You need to have Python's Imagem Library installed. You can find
 information on how to install it on your system
-[here](https://pypi.python.org/pypi/PIL).
+[here](https://pypi.python.org/pypi/PIL). If you are installing in a Linux
+machine, check [this post](http://askubuntu.com/questions/156484/how-do-i-install-python-imaging-library-pil)
+to read more about how to install the library (it can be tricky).
 
 You also need to have installed the Tesseract OCR tool. You can find
 information on how to install it on your system
