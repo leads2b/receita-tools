@@ -98,6 +98,7 @@ class CNPJClient {
 
     // parse the response data
     $html = $response->getBody()->__toString();
+    if(!$html) return false;
 
     // create DOM document (ignore errors)
     $document = new \DOMDocument();
@@ -124,14 +125,18 @@ class CNPJClient {
       return $this->captcha.'.gif';
 
     // filter
-    system('python "'.$this->base.'/CaptchaFilter.py" "'.$this->captcha.'.gif" "'.$this->filter.'.gif"');
-    system('tesseract "'.$this->filter.'.gif" "'.$this->tessout.'" &>/dev/null');
+    exec('python "'.$this->base.'/CaptchaFilter.py" "'.$this->captcha.'.gif" "'.$this->filter.'.gif"',$output);
+    exec('tesseract "'.$this->filter.'.gif" "'.$this->tessout.'" &>/dev/null',$output);
     $captcha_text = trim(file_get_contents($this->tessout.'.txt'));
     $captcha_text = $this->fix_captcha($captcha_text);
 
     // find the form viewstate input
     $viewstate = $xpath->query("//input[@id='viewstate']");
     $viewstate = $viewstate->item(0)->attributes->getNamedItem('value')->value;
+
+    // its known that the captcha should be 6 chars long, so dont even bother
+    // trying anything other than that
+    if(strlen($captcha_text)!=6) return false;
 
     if($this->verbose)
       echo "Trying captcha: ".$captcha_text."\n";
