@@ -26,6 +26,9 @@ information on how to install it on your system
 [here](https://code.google.com/p/tesseract-ocr/). Remember to install
 the english language as well.
 
+If you are running a Ubuntu/Debian system, the `setup.sh` script should
+work as a guide on how to get up and running in an easier way.
+
 About Captcha Decoding
 ----------------------
 
