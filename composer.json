@@ -1,6 +1,0 @@
-{
-    "require": {
-        "guzzle/guzzle": "3.5.*",
-        "guzzle/plugin-cookie": "*"
-    }
-}
