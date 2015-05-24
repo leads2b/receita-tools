@@ -9,7 +9,7 @@ companies you like.
 
 You can find a number of tools in the `tools` folder. Those
 tools are designed so you can easily run them on a regular
-basis to generated CSV files with all retrieved data. You can
+basis to generate CSV files with all retrieved data. You can
 then use those files to import the relevant data to the
 system you want (or even directly to a database).
 
@@ -32,9 +32,10 @@ About Captcha Decoding
 
 There will be no information about how captcha decoding is
 made by the web service. The last time this information was
-available there was changes that had broken the service.
-Basic companies information should be available in an easy
-way so we can have a more transparent business.
+available there was changes that broken the service.
+Basic company information should be available in an easy
+way so we can have a more transparent business in the
+country.
 
 Decoding percentages will be available in the future, but
 they are not really good. If you know a way to achieve +70%
