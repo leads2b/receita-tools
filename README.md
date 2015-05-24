@@ -27,7 +27,7 @@ so if you prefer, you can trigger lots of requests, and check
 their results after some time.
 
 
-About Captcha Decoding
+About captcha decoding
 ----------------------
 
 There will be no information about how captcha decoding is
