@@ -1,0 +1,60 @@
+{
+  "abertura": "26/08/1966",
+  "atividade_principal": [
+    {
+      "code": "13.54-5-00",
+      "text": "Fabricação de tecidos especiais, inclusive artefatos"
+    }
+  ],
+  "atividades_secundarias": [
+    {
+      "code": "28.63-1-00",
+      "text": "Fabricação de máquinas e equipamentos para a indústria têxtil, peças e acessórios"
+    },
+    {
+      "code": "23.30-3-03",
+      "text": "Fabricação de artefatos de fibrocimento para uso na construção"
+    },
+    {
+      "code": "33.21-0-00",
+      "text": "Instalação de máquinas e equipamentos industriais"
+    },
+    {
+      "code": "71.20-1-00",
+      "text": "Testes e análises técnicas"
+    },
+    {
+      "code": "64.63-8-00",
+      "text": "Outras sociedades de participação, exceto holdings"
+    },
+    {
+      "code": "46.63-0-00",
+      "text": "Comércio atacadista de Máquinas e equipamentos para uso industrial; partes e peças"
+    },
+    {
+      "code": "46.41-9-01",
+      "text": "Comércio atacadista de tecidos"
+    }
+  ],
+  "bairro": "CENTRO",
+  "cep": "89.130-000",
+  "cnpj": "60.580.263/0001-49",
+  "complemento": "",
+  "data_situacao": "03/11/2005",
+  "data_situacao_especial": "********",
+  "efr": "*****",
+  "email": "",
+  "fantasia": "********",
+  "logradouro": "R COLORADO",
+  "motivo_situacao": "",
+  "municipio": "INDAIAL",
+  "natureza_juridica": "206-2 - SOCIEDADE EMPRESARIA LIMITADA",
+  "nome": "ALBANY INTERNATIONAL TECIDOS TECNICOS LTDA.",
+  "numero": "350",
+  "situacao": "ATIVA",
+  "situacao_especial": "********",
+  "status": "OK",
+  "telefone": "",
+  "tipo": "MATRIZ",
+  "uf": "SC"
+}

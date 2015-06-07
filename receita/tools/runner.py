@@ -40,10 +40,13 @@ class Runner(object):
 
         if failed:
             self._list = failed
-            return run()
+            return self.run()
         return self._res
 
     def run_client(self, client):
-        data = client.get()
+        try:
+            data = client.get()
+        except:
+            data = None
         self._queue.put(data)
         self._semaphore.release()

@@ -1,0 +1,36 @@
+{
+  "abertura": "13/09/2001",
+  "atividade_principal": [
+    {
+      "code": "00.00-0-00",
+      "text": "********"
+    }
+  ],
+  "atividades_secundarias": [
+    {
+      "code": "00.00-0-00",
+      "text": "Não informada"
+    }
+  ],
+  "bairro": "********",
+  "cep": "********",
+  "cnpj": "03.420.926/0049-79",
+  "complemento": "********",
+  "data_situacao": "18/02/2008",
+  "data_situacao_especial": "********",
+  "efr": "*****",
+  "email": "",
+  "fantasia": "GLOBAL VILLAGE TELECOM",
+  "logradouro": "********",
+  "motivo_situacao": "EXTINCAO P/ ENC LIQ VOLUNTARIA",
+  "municipio": "********",
+  "natureza_juridica": "205-4 - SOCIEDADE ANONIMA FECHADA",
+  "nome": "GLOBAL VILLAGE TELECOM S.A.",
+  "numero": "********",
+  "situacao": "BAIXADA",
+  "situacao_especial": "********",
+  "status": "OK",
+  "telefone": "(67) 3215-839",
+  "tipo": "FILIAL",
+  "uf": "**"
+}

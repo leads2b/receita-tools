@@ -1,0 +1,36 @@
+{
+  "abertura": "13/09/2014",
+  "atividade_principal": [
+    {
+      "code": "95.11-8-00",
+      "text": "Reparação e manutenção de computadores e de equipamentos periféricos"
+    }
+  ],
+  "atividades_secundarias": [
+    {
+      "code": "00.00-0-00",
+      "text": "Não informada"
+    }
+  ],
+  "bairro": "NOVO MUNDO",
+  "cep": "81.020-320",
+  "cnpj": "21.030.611/0001-52",
+  "complemento": "",
+  "data_situacao": "13/09/2014",
+  "data_situacao_especial": "********",
+  "efr": "*****",
+  "email": "victor_vity69@hotmail.com",
+  "fantasia": "********",
+  "logradouro": "R CAPITAO ERNESTO DOS ANJOS BARBOSA",
+  "motivo_situacao": "",
+  "municipio": "CURITIBA",
+  "natureza_juridica": "213-5 - EMPRESARIO (INDIVIDUAL)",
+  "nome": "VICTOR KWIECIEN RUOSO 05271971902",
+  "numero": "138",
+  "situacao": "ATIVA",
+  "situacao_especial": "********",
+  "status": "OK",
+  "telefone": "(41) 8877-9260",
+  "tipo": "MATRIZ",
+  "uf": "PR"
+}
