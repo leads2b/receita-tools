@@ -1,6 +1,8 @@
 receita-tools
 =============
 
+[![Build Status](https://img.shields.io/travis/vkruoso/receita-tools.svg)](https://travis-ci.org/vkruoso/receita-tools)
+
 Set of tools to allow automated information recovery from the
 Secretary of the Federal Revenue of Brazil website. This set of
 tools will use the [receitaws.com.br](http://receitaws.com.br/)
