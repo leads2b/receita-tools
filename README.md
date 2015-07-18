@@ -1,5 +1,4 @@
-receita-tools
-=============
+# receita-tools
 
 [![Build Status](https://img.shields.io/travis/vkruoso/receita-tools.svg)](https://travis-ci.org/vkruoso/receita-tools)
 
@@ -16,8 +15,58 @@ then use those files to import the relevant data to the
 system you want (or even directly to a database).
 
 
-Webservice performance
-----------------------
+## Installation
+
+To install the tool the easiest way is to use pip:
+
+    pip install receita-tools
+
+
+## Tools to work with Receita's data
+
+This set of tools will allow you to easily retrieve data from Receita's
+website. You can get information about multiple companies at once. Those
+tools also allow you to create a few CSV files to easily import the
+retrieved data to your system.
+
+### How it works
+
+The data retriever program works based on a CSV file containing information
+about the CNPJs it should look for. This file must have at least on column,
+and the first one should contain the CNPJ of the companies you want to get
+information.
+
+You can run `receita get cnpj.csv` to get information from that CSV file.
+The retrieved data will be saved by default at the `data` directory in the
+directory you ran the command. You can change the directory by using the
+`--output` option.
+
+With the data saved locally, you can run the `receita build` command to
+build the CSV files you need. By default, it will create two CSV files:
+the `companies.csv` file that contains general information about
+each company, and the `activities.csv` that contains information about the
+activities of each company.
+
+### Examples
+
+To get data and save to `cnpj_data` folder:
+
+    receita get list.csv --output cnpj_data
+
+Keep in mind that you can use absolute or relative paths too. You can
+now run the build command. If you did not used the default directory
+to save the data, you need to inform it. You can also say the directory
+where the generated files will be stored.
+
+    receita build --input cnpj_data --output results
+
+### Getting Help
+
+You can always use the `--help` option to get help about a command.
+You can also use it with the subcommands, like `receita build --help`.
+
+
+## Webservice performance
 
 The performance of the webservice is very limited. This is
 because Receita's website is very actively blocking access
@@ -29,8 +78,7 @@ so if you prefer, you can trigger lots of requests, and check
 their results after some time.
 
 
-About captcha decoding
-----------------------
+## About captcha decoding
 
 There will be no information about how captcha decoding is
 made by the web service. The last time this information was
