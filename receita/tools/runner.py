@@ -11,6 +11,9 @@ class Runner(object):
     We are keeping multiple requests running at the same time, but
     in a limited fashion. This will allow a better performance while
     getting data from the web service.
+
+    This class assumes that the CNPJ list consists only of valid data
+    and that the web service will always return valid json.
     """
 
     _CLIENT_LIMIT = 5

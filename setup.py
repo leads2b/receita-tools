@@ -52,17 +52,14 @@ setup(
     tests_require=['tox'],
     cmdclass={'test': Tox},
 
-    # # Scripts
-    # entry_points={
-    #     'console_scripts': [
-    #         'foo = my_package.some_module:main_func',
-    #         'bar = other_module:some_func',
-    #     ],
-    #     'gui_scripts': [
-    #         'baz = my_package_gui:start_func',
-    #     ]
-    # }
+    # Scripts
+    entry_points={
+        'console_scripts': [
+            'receita = receita.cli:main',
+        ],
+    },
 
+    # Information
     classifiers=[
         'Programming Language :: Python',
         'Development Status :: 4 - Beta',
@@ -70,7 +67,7 @@ setup(
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
-        # 'License :: OSI Approved :: Apache Software License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Topic :: Utilities',
         'Topic :: Software Development :: Build Tools',
