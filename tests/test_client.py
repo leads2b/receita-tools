@@ -15,7 +15,7 @@ class TestClient(object):
         # Checks
         assert isinstance(data, dict)
         assert 'status' in data
-        requests.get.assert_called_once()
+        assert requests.get.call_count == 1
 
     def test_client_returns_none_on_timeout(self, mocker, cnpj):
         mocker.patch('requests.get', side_effect=Timeout)
@@ -24,4 +24,4 @@ class TestClient(object):
 
         # Checks
         assert data is None
-        requests.get.assert_called_once()
+        assert requests.get.call_count == 1
