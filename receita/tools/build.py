@@ -2,6 +2,7 @@ import unicodecsv
 import glob
 import json
 import os
+import sys
 
 
 class Build(object):
@@ -105,7 +106,3 @@ class Build(object):
                         'codigo': activity['code'],
                         'descricao': activity['text']
                     })
-
-# _ATIVIDADE_PRINCIPAL: 'atividade_principal',
-    # _ATIVIDADES_SECUNDARIAS: 'atividades_secundarias',
-

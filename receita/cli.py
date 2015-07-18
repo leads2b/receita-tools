@@ -10,7 +10,6 @@ the available commands are:
   build       create CSV files from the retrieved information"""
 
 
-
 import argparse
 import sys
 
