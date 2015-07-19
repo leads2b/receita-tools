@@ -1,8 +1,7 @@
 receita-tools
 =============
 
-.. figure:: https://img.shields.io/travis/vkruoso/receita-tools.svg
-   :alt: Build Status
+|pypi| |travis| |license|
 
 Set of tools to allow automated information recovery from the
 Secretary of the Federal Revenue of Brazil website. This set of
@@ -18,6 +17,15 @@ system you want (or even directly to a database).
 
 .. contents::
    :local:
+
+.. |pypi| image:: https://img.shields.io/pypi/v/receita-tools.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/receita-tools
+
+.. |travis| image:: https://img.shields.io/travis/vkruoso/receita-tools.svg?style=flat-square
+    :target: https://travis-ci.org/vkruoso/receita-tools
+    :alt: Build Status
+    
+.. |license| image:: https://img.shields.io/dub/l/vibe-d.svg?style=flat-square 
 
 Installation
 ------------
