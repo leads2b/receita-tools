@@ -1,8 +1,8 @@
 receita-tools
 =============
 
-.. _Build: https://travis-ci.org/vkruoso/receita-tools
-.. image:: https://img.shields.io/travis/vkruoso/receita-tools.svg
+.. figure:: https://img.shields.io/travis/vkruoso/receita-tools.svg
+   :alt: Build Status
 
 Set of tools to allow automated information recovery from the
 Secretary of the Federal Revenue of Brazil website. This set of
@@ -22,7 +22,7 @@ system you want (or even directly to a database).
 Installation
 ------------
 
-To install the tool the easiest way is to use pip:
+To install the tool the easiest way is to use pip::
 
     pip install receita-tools
 
