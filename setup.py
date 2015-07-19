@@ -1,6 +1,7 @@
 from __future__ import print_function
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
+import os
 import sys
 
 import receita
@@ -29,21 +30,29 @@ class Tox(TestCommand):
         sys.exit(errno)
 
 
+curdir = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(curdir, 'README.rst')) as readme:
+    long_description = readme.read()
+
 setup(
     # Basic info
-    name='receita',
+    name='receita-tools',
     version=receita.__version__,
     url='http://github.com/vkruoso/receita-tools',
-    license='Apache Software License',
+    license='MIT License',
     author='Vinicius K. Ruoso',
     author_email='vinicius.ruoso@gmail.com',
     description="Tools to manipulate Receita's company data.",
+    long_description=long_description,
 
     # Details
     packages=['receita', 'receita.tools'],
     include_package_data=True,
     platforms='any',
-    install_requires=[''],
+    install_requires=[
+        'requests',
+        'unicodecsv'
+    ],
 
     # Testing
     tests_require=['tox'],
