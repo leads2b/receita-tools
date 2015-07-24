@@ -7,6 +7,8 @@ import sys
 
 class Build(object):
 
+    ERROR = 'ERROR'
+
     def __init__(self, input_, output):
         self.input = os.path.abspath(input_)
         self.output = os.path.abspath(output)
@@ -91,6 +93,8 @@ class Build(object):
 
             writer.writeheader()
             for company in data:
+                if company['status'] == self.ERROR:
+                    continue
                 for activity in company['atividade_principal']:
                     writer.writerow({
                         'cnpj': company['cnpj'],
