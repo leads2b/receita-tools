@@ -24,8 +24,8 @@ system you want (or even directly to a database).
 .. |travis| image:: https://img.shields.io/travis/vkruoso/receita-tools.svg?style=flat-square
     :target: https://travis-ci.org/vkruoso/receita-tools
     :alt: Build Status
-    
-.. |license| image:: https://img.shields.io/dub/l/vibe-d.svg?style=flat-square 
+
+.. |license| image:: https://img.shields.io/dub/l/vibe-d.svg?style=flat-square
 
 Installation
 ------------
@@ -83,6 +83,17 @@ Getting Help
 
 You can always use the ``--help`` option to get help about a command.
 You can also use it with the subcommands, like ``receita build --help``.
+
+
+Changelog
+---------
+
+2.0.3
++++++
+
+* `#2`_: Fixed error when handling invalid company data
+
+.. _#2: https://github.com/vkruoso/receita-tools/issues/2
 
 
 Webservice performance
