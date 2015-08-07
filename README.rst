@@ -9,12 +9,6 @@ tools will use the `receitaws.com.br <http://receitaws.com.br>`_
 web service to retrieve information about all Brazilian
 companies you like.
 
-You can find a number of tools in the `tools` folder. Those
-tools are designed so you can easily run them on a regular
-basis to generate CSV files with all retrieved data. You can
-then use those files to import the relevant data to the
-system you want (or even directly to a database).
-
 .. contents::
    :local:
 
