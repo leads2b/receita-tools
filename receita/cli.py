@@ -3,18 +3,18 @@
 This will be called to run various operations on companies data.
 """
 
-BASE_USAGE = """receita <command> [<args>]
-
-the available commands are:
-  get         download information about a list of companies
-  build       create CSV files from the retrieved information"""
-
-
 import argparse
 import sys
 
 from receita.tools.get import Get
 from receita.tools.build import Build
+
+
+BASE_USAGE = """receita <command> [<args>]
+
+the available commands are:
+  get         download information about a list of companies
+  build       create CSV files from the retrieved information"""
 
 
 class Cli(object):
