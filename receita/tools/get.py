@@ -4,6 +4,8 @@ import re
 import os
 import sys
 
+from progressbar import Bar, Counter, Percentage, ProgressBar, Timer
+
 from receita.tools.runner import Runner
 
 
@@ -15,8 +17,22 @@ class Get(object):
 
     def run(self):
         """Reads data from CNPJ list and write results to output directory."""
-        runner = Runner(self.read())
-        self.write(runner.run())
+        self._assure_output_dir(self.output)
+        companies = self.read()
+        print '%s CNPJs found' % len(companies)
+
+        pbar = ProgressBar(
+            widgets=[Counter(), ' ', Percentage(), ' ', Bar(), ' ', Timer()],
+            maxval=len(companies)).start()
+
+        resolved = 0
+        runner = Runner(companies)
+        for data in runner.run():
+            self.write(data)
+            resolved = resolved + 1
+            pbar.update(resolved)
+
+        pbar.finish()
 
     def read(self):
         """Reads data from the CSV file."""
@@ -32,23 +48,25 @@ class Get(object):
 
     def write(self, data):
         """Writes json data to the output directory."""
+        cnpj, data = data
+
+        path = os.path.join(self.output, '%s.json' % cnpj)
+        with open(path, 'w') as f:
+            json.dump(data, f, encoding='utf-8')
+
+    def _assure_output_dir(self, dir):
         # Try to create the directory
-        if not os.path.exists(self.output):
+        if not os.path.exists(dir):
             try:
-                os.mkdir(self.output)
+                os.mkdir(dir)
             except:
-                print 'failed to create output directory %s' % self.output
+                print 'failed to create output directory %s' % dir
+                sys.exit(1)
 
         # Be sure it is a directory
-        if not os.path.isdir(self.output):
-            print 'invalid output directory %s' % self.output
+        if not os.path.isdir(dir):
+            print 'invalid output directory %s' % dir
             sys.exit(1)
-
-        # Save all data
-        for cnpj, data in data.iteritems():
-            path = os.path.join(self.output, '%s.json' % cnpj)
-            with open(path, 'w') as f:
-                json.dump(data, f, encoding='utf-8')
 
     def format(self, cnpj):
         """Removes all symbols except digits."""
