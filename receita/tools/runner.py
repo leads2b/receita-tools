@@ -18,6 +18,7 @@ class Runner(object):
 
     def __init__(self, list_):
         self._returned = 0
+        self._stop = False
         self._list = list_
         self._todo = Queue.Queue()
         self._results = Queue.Queue()
@@ -41,15 +42,26 @@ class Runner(object):
         return self.next()
 
     def next(self):
-        if self._returned == len(self._list):
-            for thread in self._threads:
-                thread.join()
+        if self._returned == len(self._list) or self._stop:
+            self._wait_threads()
             raise StopIteration()
+
         self._returned = self._returned + 1
         return self._results.get(block=True)
 
+    def stop(self):
+        self._stop = True
+        self._wait_threads()
+
+    def _wait_threads(self):
+        for thread in self._threads:
+            thread.join()
+
     def work(self):
         while self._returned < len(self._list):
+            if self._stop:
+                break
+
             try:
                 cnpj = self._todo.get(block=True, timeout=1)
             except Queue.Empty:

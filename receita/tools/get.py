@@ -27,10 +27,16 @@ class Get(object):
 
         resolved = 0
         runner = Runner(companies)
-        for data in runner:
-            self.write(data)
-            resolved = resolved + 1
-            pbar.update(resolved)
+
+        try:
+            for data in runner:
+                self.write(data)
+                resolved = resolved + 1
+                pbar.update(resolved)
+        except KeyboardInterrupt:
+            print '\naborted: waiting current requests to finish.'
+            runner.stop()
+            return
 
         pbar.finish()
 
