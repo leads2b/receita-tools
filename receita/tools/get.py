@@ -27,7 +27,7 @@ class Get(object):
 
         resolved = 0
         runner = Runner(companies)
-        for data in runner.run():
+        for data in runner:
             self.write(data)
             resolved = resolved + 1
             pbar.update(resolved)

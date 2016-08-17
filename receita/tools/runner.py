@@ -1,4 +1,3 @@
-
 import Queue
 import threading
 
@@ -18,36 +17,46 @@ class Runner(object):
     _CLIENT_LIMIT = 5
 
     def __init__(self, list_):
+        self._returned = 0
         self._list = list_
         self._todo = Queue.Queue()
         self._results = Queue.Queue()
 
-    def run(self):
         for cnpj in self._list:
             self._todo.put(cnpj)
 
-        threads = []
+        self._threads = []
         for index in range(0, self._CLIENT_LIMIT):
-            threads.append(threading.Thread(
+            self._threads.append(threading.Thread(
                 target=self.work,
                 name='worker-%s' % index
             ))
-            threads[-1].start()
+            self._threads[-1].start()
 
-        while not self._todo.empty():
-            yield self._results.get()
+    def __iter__(self):
+        return self
 
-        for thread in threads:
-            thread.join()
+    # Python 3 compatibility
+    def __next__(self):
+        return self.next()
+
+    def next(self):
+        if self._returned == len(self._list):
+            for thread in self._threads:
+                thread.join()
+            raise StopIteration()
+        self._returned = self._returned + 1
+        return self._results.get(block=True)
 
     def work(self):
-        while not self._todo.empty():
-            cnpj = self._todo.get()
-
+        while self._returned < len(self._list):
             try:
-                data = Client(cnpj).get()
-                self._results.put((cnpj, data))
-            except:
-                # retry later
-                self._todo.put(cnpj)
+                cnpj = self._todo.get(block=True, timeout=1)
+            except Queue.Empty:
                 continue
+
+            data = Client(cnpj).get()
+            if data:
+                self._results.put((cnpj, data))
+            else:
+                self._todo.put(cnpj)
