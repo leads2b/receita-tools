@@ -1,40 +1,23 @@
 
 import json
-from requests.exceptions import Timeout
 
 from receita.tools.runner import Runner
 
 
 class TestRunner(object):
 
-    def test_runner_execution(self, mocker, response, cnpj_batch):
+    def test_runner_with_correct_responses(self, mocker, response, cnpj_batch):
         """Tests runner execution.
 
-        The runner keeps trying to get the data when a timeout or any other
-        exceptions occurs. We will issue a list of CNPJs to handle and make
-        it return an error, a timeout and success for each of them.
+        This only tests the success case, where the response is returned.
         """
-
-        # The first batch: all Timeout errors.
-        # The second batch: all generic errors.
-        # The third batch: one error, all other success.
-        # The fourth batch: the last success.
-        returns = []
-
-        # First and second
-        returns.extend([Timeout() for cnpj in cnpj_batch])
-        returns.extend([Exception() for cnpj in cnpj_batch])
-
-        # Third and fourth
-        returns.extend([Timeout()])
-        returns.extend([response(cnpj) for cnpj in cnpj_batch[1:]])
-        returns.extend([response(cnpj_batch[0])])
-
-        mocker.patch('requests.get', side_effect=returns)
+        mocker.patch('requests.get', new=response)
 
         # Execute
         runner = Runner(cnpj_batch)
-        data = runner.run()
+        data = {}
+        for result in runner:
+            data[result[0]] = result[1]
 
         # Check results
         for cnpj in cnpj_batch:

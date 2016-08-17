@@ -51,7 +51,8 @@ setup(
     platforms='any',
     install_requires=[
         'requests',
-        'unicodecsv'
+        'unicodecsv',
+        'progressbar'
     ],
 
     # Testing

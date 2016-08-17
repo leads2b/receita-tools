@@ -15,12 +15,18 @@ resources = os.path.join(base, 'resources')
 @pytest.fixture
 def response():
     class Response(object):
-        def __init__(self, *args, **kwargs):
-            cnpj = args[0].split('/')[-1]
+        def __init__(self, cnpj):
+            self.status_code = 200
+            self.content = None
+
             path = os.path.join(resources, cnpj)
             with open('%s.json' % path, 'rb') as f:
                 self.content = f.read()
-    return Response
+
+    def get(*args, **kwargs):
+        cnpj = args[0].split('/')[-1]
+        return Response(cnpj)
+    return get
 
 
 @pytest.fixture
