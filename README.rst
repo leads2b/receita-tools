@@ -82,12 +82,25 @@ You can also use it with the subcommands, like ``receita build --help``.
 Changelog
 ---------
 
+2.1.0 (not released)
+++++++++++++++++++++
+
+* `#10`_: Add suport for ReceitaWS's `Comercial`_ API
+* `#9`_: Reduced memory usage when quering a big number of companies
+* `#5`_ / `#11`_: Add JSONP support on the API
+
+.. _Comercial: https://www.receitaws.com.br/pricing
+
 2.0.3
 +++++
 
 * `#2`_: Fixed error when handling invalid company data
 
 .. _#2: https://github.com/vkruoso/receita-tools/issues/2
+.. _#5: https://github.com/vkruoso/receita-tools/issues/5
+.. _#9: https://github.com/vkruoso/receita-tools/issues/9
+.. _#10: https://github.com/vkruoso/receita-tools/issues/10
+.. _#11: https://github.com/vkruoso/receita-tools/issues/11
 
 
 Webservice performance
@@ -101,20 +114,3 @@ response, but in any case, your code must be prepared to wait
 for a long time for a response (5mins+). Results are cached,
 so if you prefer, you can trigger lots of requests, and check
 their results after some time.
-
-
-About captcha decoding
-----------------------
-
-There will be no information about how captcha decoding is
-made by the web service. The last time this information was
-available there was changes that broken the service.
-Basic company information should be available in an easy
-way so we can have a more transparent business in the
-country.
-
-Decoding percentages will be available in the future, but
-they are not really good. If you know a way to achieve +70%
-of success decoding it, please let me know. There's a tool
-to download some sample captchas to help any development on
-that area.
