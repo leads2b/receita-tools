@@ -30,6 +30,8 @@ class Build(object):
 
     def write(self, data):
         """Builds the CSV file from data."""
+        activities = {}
+
         # Try to create the directory
         if not os.path.exists(self.output):
             try:
@@ -96,6 +98,7 @@ class Build(object):
                 if company['status'] == self.ERROR:
                     continue
                 for activity in company['atividade_principal']:
+                    activities[activity['code']] = activity['text']
                     writer.writerow({
                         'cnpj': company['cnpj'],
                         'tipo': 'principal',
@@ -104,9 +107,29 @@ class Build(object):
                     })
 
                 for activity in company['atividades_secundarias']:
+                    activities[activity['code']] = activity['text']
                     writer.writerow({
                         'cnpj': company['cnpj'],
                         'tipo': 'secundaria',
                         'codigo': activity['code'],
                         'descricao': activity['text']
                     })
+
+        # All activities seen
+        fields = [
+            'codigo',
+            'descricao'
+        ]
+
+        path = os.path.join(self.output, 'activities_seen.csv')
+        with open(path, 'w') as f:
+            writer = unicodecsv.DictWriter(
+                f, fieldnames=fields,
+                extrasaction='ignore')
+
+            writer.writeheader()
+            for code, desc in activities.iteritems():
+                writer.writerow({
+                    'codigo': code,
+                    'descricao': desc
+                })
