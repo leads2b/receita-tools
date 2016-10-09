@@ -37,8 +37,22 @@ website. You can get information about multiple companies at once. Those
 tools also allow you to create a few CSV files to easily import the
 retrieved data to your system.
 
-How it works
-++++++++++++
+The Webservice
+++++++++++++++
+
+The tools provided here use the **ReceitaWS** webservice. Here are a few
+important links to read about how the system works before using this tool:
+
+* `API Documentation`_
+* `FAQ`_
+* `Pricing`_
+
+.. _API Documentation: https://www.receitaws.com.br/api
+.. _FAQ: https://www.receitaws.com.br/faq
+.. _Pricing: https://www.receitaws.com.br/pricing
+
+The ``get`` command
++++++++++++++++++++
 
 The data retriever program works based on a CSV file containing information
 about the CNPJs it should look for. This file must have at least on column,
@@ -48,29 +62,61 @@ information.
 You can run ``receita get cnpj.csv`` to get information from that CSV file.
 The retrieved data will be saved by default at the ``data`` directory in the
 directory you ran the command. You can change the directory by using the
-``--output`` option.
+``--output`` option. Keep in mind that you can use absolute or relative
+paths too.
 
-With the data saved locally, you can run the ``receita build`` command to
-build the CSV files you need. By default, it will create two CSV files:
-the ``companies.csv`` file that contains general information about
-each company, and the ``activities.csv`` that contains information about the
-activities of each company.
+You can use the webservice Public API or the Comercial API. Below we describe
+how to use each of them.
 
-Examples
-++++++++
+Public API
+**********
 
-To get data and save to ``cnpj_data`` folder::
+By default the get command will use the Public API to get information about
+companies. There is no extra configuration or command to perform, so you
+are ready to go. For example, to get data from the companies listed in the
+``list.csv`` file and save to ``cnpj_data`` folder using the Public API::
 
     receita get list.csv --output cnpj_data
 
-Keep in mind that you can use absolute or relative paths too. You can
-now run the build command. If you did not used the default directory
-to save the data, you need to inform it. You can also say the directory
-where the generated files will be stored.
+Comercial API
+*************
+
+To use the Comercial API you need to provide two extra informations: the
+maximum data deprecation value (in days) and the API access token. You can
+generate an access token by accessing your control panel at the ReceitaWS
+website.
+
+Once you have that information, you need to provide your token as the
+``RWS_TOKEN`` environment variable. The deprecation value must be provided
+using the ``-d`` option.
+
+To set the environment variable you can use the ``export`` command or simply
+define it when getting information. Here is a sample using the ``export``
+command and setting the data tolerante to 20 days::
+
+    export RWS_TOKEN="<my-token>"
+    receita get list.csv --output cnpj_data -d 20
+
+The ``build`` command
++++++++++++++++++++++
+
+After you run the ``get`` command all data is already downloaded to your
+local filesystem. The ``build`` command is used to read all this data and
+generate consolidated CSV files with its information.
+
+If you did not used the default directory to save the data, you need to
+inform it. You can also say the directory where the generated files will
+be stored.
 
 .. code::
 
     receita build --input cnpj_data --output results
+
+This command will generate three files at the output directory:
+
+* **companies.csv**: data for every company retrieved;
+* **activities.csv**: list of companies activities (primary/secondary);
+* **activities_seen.csv**: the full set of activities from those companies.
 
 Getting Help
 ++++++++++++
@@ -104,16 +150,3 @@ Changelog
 .. _#10: https://github.com/vkruoso/receita-tools/issues/10
 .. _#11: https://github.com/vkruoso/receita-tools/issues/11
 .. _#12: https://github.com/vkruoso/receita-tools/issues/12
-
-
-Webservice performance
-----------------------
-
-The performance of the webservice is very limited. This is
-because Receita's website is very actively blocking access
-when there is an elevated number of requests from a single
-IP. We try to run workers on multiple IPs to allow a faster
-response, but in any case, your code must be prepared to wait
-for a long time for a response (5mins+). Results are cached,
-so if you prefer, you can trigger lots of requests, and check
-their results after some time.
