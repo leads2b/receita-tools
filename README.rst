@@ -86,7 +86,7 @@ Changelog
 ++++++++++++++++++++
 
 * `#10`_: Add suport for ReceitaWS's `Comercial API`_
-* `#9`_ / `#12_`: Reduced memory usage when dealing with a big number of companies
+* `#9`_ / `#12`_: Reduced memory usage when dealing with a big number of companies
 * `#5`_ / `#11`_: Add JSONP support on the API
 * `#3`_: Add new output file: all activities seen
 
