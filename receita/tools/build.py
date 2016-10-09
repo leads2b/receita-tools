@@ -1,13 +1,116 @@
-import unicodecsv
 import glob
 import json
 import os
 import sys
+import unicodecsv
+
+
+class BaseCSV(object):
+
+    ERROR = 'ERROR'
+
+    def __init__(self, output):
+        path = os.path.join(output, self._filename + '.csv')
+        self._f = open(path, 'w')
+
+        self.writer = unicodecsv.DictWriter(
+            self._f, fieldnames=self._fields,
+            extrasaction='ignore')
+        self.writer.writeheader()
+
+
+class _CompaniesCSV(BaseCSV):
+
+    _filename = 'companies'
+    _fields = [
+        'cnpj',
+        'tipo',
+        'abertura',
+        'nome',
+        'fantasia',
+        'natureza_juridica',
+        'logradouro',
+        'numero',
+        'complemento',
+        'cep',
+        'bairro',
+        'municipio',
+        'uf',
+        'email',
+        'telefone',
+        'efr',
+        'situacao',
+        'data_situacao',
+        'motivo_situacao',
+        'situacao_especial',
+        'data_situacao_especial',
+    ]
+
+    def visit(self, data):
+        self.writer.writerow(data)
+
+
+class _ActivitiesCSV(BaseCSV):
+
+    _filename = 'activities'
+    _fields = [
+        'cnpj',
+        'tipo',
+        'codigo',
+        'descricao',
+    ]
+
+    def visit(self, data):
+        if data['status'] == self.ERROR:
+            return
+
+        for activity in data['atividade_principal']:
+            self.writer.writerow({
+                'cnpj': data['cnpj'],
+                'tipo': 'principal',
+                'codigo': activity['code'],
+                'descricao': activity['text']
+            })
+
+        for activity in data['atividades_secundarias']:
+            self.writer.writerow({
+                'cnpj': data['cnpj'],
+                'tipo': 'secundaria',
+                'codigo': activity['code'],
+                'descricao': activity['text']
+            })
+
+
+class _ActivitiesSeenCSV(BaseCSV):
+
+    _filename = 'activities_seen'
+    _fields = [
+        'codigo',
+        'descricao',
+    ]
+
+    def __init__(self, output):
+        super(_ActivitiesSeenCSV, self).__init__(output)
+        self._activities = {}
+
+    def _process(self, activities):
+        for activity in activities:
+            if activity['code'] in self._activities:
+                continue
+            self._activities[activity['code']] = activity['text']
+            self.writer.writerow({
+                'codigo': activity['code'],
+                'descricao': activity['text']
+            })
+
+    def visit(self, data):
+        if data['status'] == self.ERROR:
+            return
+        self._process(data['atividade_principal'])
+        self._process(data['atividades_secundarias'])
 
 
 class Build(object):
-
-    ERROR = 'ERROR'
 
     def __init__(self, input_, output):
         self.input = os.path.abspath(input_)
@@ -15,23 +118,6 @@ class Build(object):
 
     def run(self):
         """Reads data from disk and generates CSV files."""
-        self.write(self.read())
-
-    def read(self):
-        """Reads data from the json files."""
-        content = []
-        for path in glob.glob(os.path.join(self.input, '*.json')):
-            with open(path, 'r') as f:
-                try:
-                    content.append(json.load(f, encoding='utf-8'))
-                except ValueError:
-                    pass
-        return content
-
-    def write(self, data):
-        """Builds the CSV file from data."""
-        activities = {}
-
         # Try to create the directory
         if not os.path.exists(self.output):
             try:
@@ -44,92 +130,20 @@ class Build(object):
             print 'invalid output directory %s' % self.output
             sys.exit(1)
 
-        # Save companies information first
-        fields = [
-            'cnpj',
-            'tipo',
-            'abertura',
-            'nome',
-            'fantasia',
-            'natureza_juridica',
-            'logradouro',
-            'numero',
-            'complemento',
-            'cep',
-            'bairro',
-            'municipio',
-            'uf',
-            'email',
-            'telefone',
-            'efr',
-            'situacao',
-            'data_situacao',
-            'motivo_situacao',
-            'situacao_especial',
-            'data_situacao_especial',
+        # Create the CSV handlers
+        visitors = [
+            _CompaniesCSV(self.output),
+            _ActivitiesCSV(self.output),
+            _ActivitiesSeenCSV(self.output)
         ]
 
-        path = os.path.join(self.output, 'companies.csv')
-        with open(path, 'w') as f:
-            writer = unicodecsv.DictWriter(
-                f, fieldnames=fields,
-                extrasaction='ignore')
-
-            writer.writeheader()
-            for company in data:
-                writer.writerow(company)
-
-        # Save all activities for each company
-        fields = [
-            'cnpj',
-            'tipo',
-            'codigo',
-            'descricao',
-        ]
-
-        path = os.path.join(self.output, 'activities.csv')
-        with open(path, 'w') as f:
-            writer = unicodecsv.DictWriter(
-                f, fieldnames=fields,
-                extrasaction='ignore')
-
-            writer.writeheader()
-            for company in data:
-                if company['status'] == self.ERROR:
+        # Run by each company populating the CSV files
+        for path in glob.glob(os.path.join(self.input, '*.json')):
+            with open(path, 'r') as f:
+                try:
+                    data = json.load(f, encoding='utf-8')
+                except ValueError:
                     continue
-                for activity in company['atividade_principal']:
-                    activities[activity['code']] = activity['text']
-                    writer.writerow({
-                        'cnpj': company['cnpj'],
-                        'tipo': 'principal',
-                        'codigo': activity['code'],
-                        'descricao': activity['text']
-                    })
 
-                for activity in company['atividades_secundarias']:
-                    activities[activity['code']] = activity['text']
-                    writer.writerow({
-                        'cnpj': company['cnpj'],
-                        'tipo': 'secundaria',
-                        'codigo': activity['code'],
-                        'descricao': activity['text']
-                    })
-
-        # All activities seen
-        fields = [
-            'codigo',
-            'descricao'
-        ]
-
-        path = os.path.join(self.output, 'activities_seen.csv')
-        with open(path, 'w') as f:
-            writer = unicodecsv.DictWriter(
-                f, fieldnames=fields,
-                extrasaction='ignore')
-
-            writer.writeheader()
-            for code, desc in activities.iteritems():
-                writer.writerow({
-                    'codigo': code,
-                    'descricao': desc
-                })
+                for visitor in visitors:
+                    visitor.visit(data)

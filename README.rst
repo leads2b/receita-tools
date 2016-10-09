@@ -85,11 +85,12 @@ Changelog
 2.1.0 (not released)
 ++++++++++++++++++++
 
-* `#10`_: Add suport for ReceitaWS's `Comercial`_ API
-* `#9`_: Reduced memory usage when quering a big number of companies
+* `#10`_: Add suport for ReceitaWS's `Comercial API`_
+* `#9`_ / `#12_`: Reduced memory usage when dealing with a big number of companies
 * `#5`_ / `#11`_: Add JSONP support on the API
+* `#3`_: Add new output file: all activities seen
 
-.. _Comercial: https://www.receitaws.com.br/pricing
+.. _Comercial API: https://www.receitaws.com.br/pricing
 
 2.0.3
 +++++
@@ -97,10 +98,12 @@ Changelog
 * `#2`_: Fixed error when handling invalid company data
 
 .. _#2: https://github.com/vkruoso/receita-tools/issues/2
+.. _#3: https://github.com/vkruoso/receita-tools/issues/3
 .. _#5: https://github.com/vkruoso/receita-tools/issues/5
 .. _#9: https://github.com/vkruoso/receita-tools/issues/9
 .. _#10: https://github.com/vkruoso/receita-tools/issues/10
 .. _#11: https://github.com/vkruoso/receita-tools/issues/11
+.. _#12: https://github.com/vkruoso/receita-tools/issues/12
 
 
 Webservice performance
