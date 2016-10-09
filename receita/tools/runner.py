@@ -14,14 +14,16 @@ class Runner(object):
     This class assumes that the CNPJ list consists only of valid data
     and that the web service will always return valid json.
     """
-    _CLIENT_LIMIT = 5
+    _CLIENT_LIMIT = 20
 
-    def __init__(self, list_):
+    def __init__(self, cnpjs, days=None, token=None):
         self._returned = 0
         self._stop = False
-        self._list = list_
+        self._list = cnpjs
         self._todo = Queue.Queue()
         self._results = Queue.Queue()
+        self._days = days
+        self._token = token
 
         for cnpj in self._list:
             self._todo.put(cnpj)
@@ -67,7 +69,7 @@ class Runner(object):
             except Queue.Empty:
                 continue
 
-            data = Client(cnpj).get()
+            data = Client(cnpj, self._days, self._token).get()
             if data:
                 self._results.put((cnpj, data))
             else:

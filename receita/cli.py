@@ -38,9 +38,21 @@ class Cli(object):
     def get(self):
         parser = argparse.ArgumentParser(
             prog='receita get',
-            description='Download information about a list of companies'
+            description='Download information about a list of companies.',
+            epilog=(
+                'The data is retrieved from ReceitaWS webservice on company '
+                'information. Please, make sure you read its terms of usage '
+                'and its documentation at https://www.receitaws.com.br on '
+                'how the webservice works. You MAY be charged when using '
+                'some features of this service.'
+            )
         )
         parser.add_argument('list', help='CSV file with companies CNPJ')
+        parser.add_argument(
+            '-d',
+            metavar="DAYS",
+            dest='days',
+            help='maximum data deprecation allowed in days')
         parser.add_argument(
             '--output',
             help='directory to save the output',
@@ -49,12 +61,12 @@ class Cli(object):
         args = parser.parse_args(sys.argv[2:])
 
         # Execute
-        Get(args.list, args.output).run()
+        Get(args.list, args.output, args.days).run()
 
     def build(self):
         parser = argparse.ArgumentParser(
             prog='receita build',
-            description='Create CSV files from the retrieved information')
+            description='Create CSV files from the retrieved information.')
         parser.add_argument(
             '--output',
             help='directory to save the generated CSV files',

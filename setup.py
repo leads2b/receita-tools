@@ -49,8 +49,17 @@ setup(
     packages=['receita', 'receita.tools'],
     include_package_data=True,
     platforms='any',
+
+    # On TLSv1.2 support:
+    # https://github.com/kennethreitz/requests/blob/master/requests/packages/urllib3/contrib/pyopenssl.py
+    # https://github.com/kennethreitz/requests/issues/3006
+    # We are supporting TLSv1 for now, so it is not essential to have these
+    # packages, but it is good to be prepared.
     install_requires=[
         'requests',
+        'pyOpenSSL',  # needed for SSL support
+        'ndg-httpsclient',  # needed for SSL support
+        'pyasn1',   # needed for SSL support
         'unicodecsv',
         'progressbar'
     ],

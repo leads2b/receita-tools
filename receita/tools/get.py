@@ -11,9 +11,16 @@ from receita.tools.runner import Runner
 
 class Get(object):
 
-    def __init__(self, file_, output):
+    def __init__(self, file_, output, days):
         self.file = file_
         self.output = os.path.abspath(output)
+        self.days = days
+        self.token = os.environ.get('RWS_TOKEN')
+
+        if self.days and not self.token:
+            print('error: no token provided. Provide an access token using '
+                  'the environment variable RWS_TOKEN.')
+            sys.exit(1)
 
     def run(self):
         """Reads data from CNPJ list and write results to output directory."""
@@ -26,7 +33,7 @@ class Get(object):
             maxval=len(companies)).start()
 
         resolved = 0
-        runner = Runner(companies)
+        runner = Runner(companies, self.days, self.token)
 
         try:
             for data in runner:
