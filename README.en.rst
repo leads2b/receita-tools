@@ -3,6 +3,8 @@ receita-tools
 
 |pypi| |travis| |license|
 
+**README Laguages:** |ptbr| |en|
+
 Set of tools to allow automated information recovery from the
 Secretary of the Federal Revenue of Brazil website. This set of
 tools will use the `receitaws.com.br <http://receitaws.com.br>`_
@@ -21,10 +23,18 @@ companies you like.
 
 .. |license| image:: https://img.shields.io/dub/l/vibe-d.svg?style=flat-square
 
+.. |ptbr| image:: https://lipis.github.io/flag-icon-css/flags/4x3/br.svg
+    :target: https://github.com/vkruoso/receita-tools/blob/master/README.rst
+    :height: 20px
+
+.. |en| image:: https://lipis.github.io/flag-icon-css/flags/4x3/us.svg
+    :target: https://github.com/vkruoso/receita-tools/blob/master/README.en.rst
+    :height: 20px
+
 Installation
 ------------
 
-To install the tool the easiest way is to use pip::
+To install the tool the easiest way is to use ``pip``::
 
     pip install receita-tools
 
@@ -71,7 +81,7 @@ how to use each of them.
 Public API
 **********
 
-By default the get command will use the Public API to get information about
+By default the ``get`` command will use the Public API to get information about
 companies. There is no extra configuration or command to perform, so you
 are ready to go. For example, to get data from the companies listed in the
 ``list.csv`` file and save to ``cnpj_data`` folder using the Public API::
@@ -92,7 +102,7 @@ using the ``-d`` option.
 
 To set the environment variable you can use the ``export`` command or simply
 define it when getting information. Here is a sample using the ``export``
-command and setting the data tolerante to 20 days::
+command and setting the data tolerance to 20 days::
 
     export RWS_TOKEN="<my-token>"
     receita get list.csv --output cnpj_data -d 20
@@ -128,9 +138,10 @@ You can also use it with the subcommands, like ``receita build --help``.
 Changelog
 ---------
 
-2.1.0 (not released)
-++++++++++++++++++++
+2.1.0
++++++
 
+* `#13`_: Documentation improvements
 * `#10`_: Add suport for ReceitaWS's `Comercial API`_
 * `#9`_ / `#12`_: Reduced memory usage when dealing with a big number of companies
 * `#5`_ / `#11`_: Add JSONP support on the API
@@ -150,3 +161,4 @@ Changelog
 .. _#10: https://github.com/vkruoso/receita-tools/issues/10
 .. _#11: https://github.com/vkruoso/receita-tools/issues/11
 .. _#12: https://github.com/vkruoso/receita-tools/issues/12
+.. _#13: https://github.com/vkruoso/receita-tools/issues/13
