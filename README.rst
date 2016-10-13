@@ -24,12 +24,12 @@ das empresas que deseja.
 .. |license| image:: https://img.shields.io/dub/l/vibe-d.svg?style=flat-square
 
 .. |ptbr| image:: https://lipis.github.io/flag-icon-css/flags/4x3/br.svg
-    :target: https://github.com/vkruoso/receita-tools/blob/master/README.rst
-    :height: 20px
+     :target: https://github.com/vkruoso/receita-tools/blob/master/README.rst
+     :height: 20px
 
 .. |en| image:: https://lipis.github.io/flag-icon-css/flags/4x3/us.svg
-    :target: https://github.com/vkruoso/receita-tools/blob/master/README.en.rst
-    :height: 20px
+     :target: https://github.com/vkruoso/receita-tools/blob/master/README.en.rst
+     :height: 20px
 
 Instalação
 ----------
@@ -141,21 +141,29 @@ Você também pode utilizá-lo com os subcomandos, como ``receita build --help``
 Changelog
 ---------
 
-2.1.0
+2.1.1
 +++++
 
 * `#13`_: Melhorias de documentação
-* `#10`_: Adicionado suporte à `API Comercial` do ReceitaWS_
+* `#10`_: Adicionado suporte à `API Comercial <https://www.receitaws.com.br/pricing/>`_ do ReceitaWS
 * `#9`_ / `#12`_: Reduzido o uso de memória durante o uso de muitas empresas
 * `#5`_ / `#11`_: Adicionado suporte a JSONP na API
 * `#3`_: Adicionado no arquivos de saída: todas as atividades
-
-.. _API Comercial: https://www.receitaws.com.br/pricing
 
 2.0.3
 +++++
 
 * `#2`_: Corrigido erro quando dados inválidos de empresa são recebidos
+
+2.0.2
++++++
+
+* Primeira release oficial do pacote *receita-tools*.
+
+1.0.0
++++++
+
+* Uma release em PHP que realiza o trabalho do webservice. Depreciado.
 
 .. _#2: https://github.com/vkruoso/receita-tools/issues/2
 .. _#3: https://github.com/vkruoso/receita-tools/issues/3

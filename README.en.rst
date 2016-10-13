@@ -138,21 +138,29 @@ You can also use it with the subcommands, like ``receita build --help``.
 Changelog
 ---------
 
-2.1.0
+2.1.1
 +++++
 
 * `#13`_: Documentation improvements
-* `#10`_: Add suport for ReceitaWS's `Comercial API`_
+* `#10`_: Add suport for ReceitaWS's `Comercial API <https://www.receitaws.com.br/pricing>`_
 * `#9`_ / `#12`_: Reduced memory usage when dealing with a big number of companies
 * `#5`_ / `#11`_: Add JSONP support on the API
 * `#3`_: Add new output file: all activities seen
-
-.. _Comercial API: https://www.receitaws.com.br/pricing
 
 2.0.3
 +++++
 
 * `#2`_: Fixed error when handling invalid company data
+
+2.0.2
++++++
+
+* First official release of Python package *receita-tools*
+
+1.0.0
++++++
+
+* A PHP release the do the webservice work. Deprecated.
 
 .. _#2: https://github.com/vkruoso/receita-tools/issues/2
 .. _#3: https://github.com/vkruoso/receita-tools/issues/3
