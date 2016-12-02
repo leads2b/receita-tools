@@ -44,6 +44,7 @@ class _CompaniesCSV(BaseCSV):
         'motivo_situacao',
         'situacao_especial',
         'data_situacao_especial',
+        'capital_social'
     ]
 
     def visit(self, data):
@@ -110,6 +111,27 @@ class _ActivitiesSeenCSV(BaseCSV):
         self._process(data['atividades_secundarias'])
 
 
+class _QSACSV(BaseCSV):
+
+    _filename = 'qsa'
+    _fields = [
+        'cnpj',
+        'nome',
+        'qual',
+        'pais_origem',
+        'nome_rep_legal',
+        'qual_rep_legal',
+    ]
+
+    def visit(self, data):
+        if data['status'] == self.ERROR:
+            return
+
+        for qsa in data['qsa']:
+            qsa.update({'cnpj': data['cnpj']})
+            self.writer.writerow(qsa)
+
+
 class Build(object):
 
     def __init__(self, input_, output):
@@ -134,7 +156,8 @@ class Build(object):
         visitors = [
             _CompaniesCSV(self.output),
             _ActivitiesCSV(self.output),
-            _ActivitiesSeenCSV(self.output)
+            _ActivitiesSeenCSV(self.output),
+            _QSACSV(self.output),
         ]
 
         # Run by each company populating the CSV files
