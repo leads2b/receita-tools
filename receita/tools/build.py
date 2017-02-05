@@ -96,9 +96,12 @@ class _ActivitiesSeenCSV(BaseCSV):
 
     def _process(self, activities):
         for activity in activities:
-            if activity['code'] in self._activities:
+            if activity['code'] == '00.00-0-00':
                 continue
-            self._activities[activity['code']] = activity['text']
+            key = (activity['code'], activity['text'],)
+            if key in self._activities:
+                continue
+            self._activities[key] = activity['text']
             self.writer.writerow({
                 'codigo': activity['code'],
                 'descricao': activity['text']
