@@ -179,3 +179,5 @@ Changelog
 .. _#11: https://github.com/vkruoso/receita-tools/issues/11
 .. _#12: https://github.com/vkruoso/receita-tools/issues/12
 .. _#13: https://github.com/vkruoso/receita-tools/issues/13
+.. _#15: https://github.com/vkruoso/receita-tools/issues/15
+.. _#17: https://github.com/vkruoso/receita-tools/issues/17
