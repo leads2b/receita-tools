@@ -141,6 +141,12 @@ Você também pode utilizá-lo com os subcomandos, como ``receita build --help``
 Changelog
 ---------
 
+2.2.0
++++++
+
+* `#17`_: Corrigido bug de atividades com mesmo código
+* `#15`_: Adicionado suporte ao QSA
+
 2.1.1
 +++++
 

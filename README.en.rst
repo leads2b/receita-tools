@@ -138,6 +138,12 @@ You can also use it with the subcommands, like ``receita build --help``.
 Changelog
 ---------
 
+2.2.0
++++++
+
+* `#17`_: Fix activities with the same code bug
+* `#15`_: Add QSA support
+
 2.1.1
 +++++
 
