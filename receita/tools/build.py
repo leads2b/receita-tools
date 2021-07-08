@@ -148,11 +148,11 @@ class Build(object):
             try:
                 os.mkdir(self.output)
             except:
-                print 'failed to create output directory %s' % self.output
+                print(('failed to create output directory %s' % self.output))
 
         # Be sure it is a directory
         if not os.path.isdir(self.output):
-            print 'invalid output directory %s' % self.output
+            print(('invalid output directory %s' % self.output))
             sys.exit(1)
 
         # Create the CSV handlers

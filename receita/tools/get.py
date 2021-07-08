@@ -26,7 +26,7 @@ class Get(object):
         """Reads data from CNPJ list and write results to output directory."""
         self._assure_output_dir(self.output)
         companies = self.read()
-        print '%s CNPJs found' % len(companies)
+        print(('%s CNPJs found' % len(companies)))
 
         pbar = ProgressBar(
             widgets=[Counter(), ' ', Percentage(), ' ', Bar(), ' ', Timer()],
@@ -41,7 +41,7 @@ class Get(object):
                 resolved = resolved + 1
                 pbar.update(resolved)
         except KeyboardInterrupt:
-            print '\naborted: waiting current requests to finish.'
+            print('\naborted: waiting current requests to finish.')
             runner.stop()
             return
 
@@ -73,12 +73,12 @@ class Get(object):
             try:
                 os.mkdir(dir)
             except:
-                print 'failed to create output directory %s' % dir
+                print(('failed to create output directory %s' % dir))
                 sys.exit(1)
 
         # Be sure it is a directory
         if not os.path.isdir(dir):
-            print 'invalid output directory %s' % dir
+            print(('invalid output directory %s' % dir))
             sys.exit(1)
 
     def format(self, cnpj):

@@ -1,4 +1,4 @@
-import Queue
+import queue
 import threading
 
 from receita.tools.client import Client
@@ -20,8 +20,8 @@ class Runner(object):
         self._returned = 0
         self._stop = False
         self._list = cnpjs
-        self._todo = Queue.Queue()
-        self._results = Queue.Queue()
+        self._todo = queue.Queue()
+        self._results = queue.Queue()
         self._days = days
         self._token = token
 
@@ -41,9 +41,9 @@ class Runner(object):
 
     # Python 3 compatibility
     def __next__(self):
-        return self.next()
+        return next(self)
 
-    def next(self):
+    def __next__(self):
         if self._returned == len(self._list) or self._stop:
             self._wait_threads()
             raise StopIteration()
@@ -66,7 +66,7 @@ class Runner(object):
 
             try:
                 cnpj = self._todo.get(block=True, timeout=1)
-            except Queue.Empty:
+            except queue.Empty:
                 continue
 
             data = Client(cnpj, self._days, self._token).get()
