@@ -39,10 +39,6 @@ class Runner(object):
     def __iter__(self):
         return self
 
-    # Python 3 compatibility
-    def __next__(self):
-        return next(self)
-
     def __next__(self):
         if self._returned == len(self._list) or self._stop:
             self._wait_threads()
