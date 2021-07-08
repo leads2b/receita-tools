@@ -1,4 +1,4 @@
-import unicodecsv
+import csv
 import json
 import re
 import os
@@ -51,7 +51,7 @@ class Get(object):
         """Reads data from the CSV file."""
         companies = []
         with open(self.file) as f:
-            reader = unicodecsv.reader(f)
+            reader = csv.reader(f)
             for line in reader:
                 if len(line) >= 1:
                     cnpj = self.format(line[0])

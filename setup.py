@@ -60,7 +60,6 @@ setup(
         'pyOpenSSL',  # needed for SSL support
         'ndg-httpsclient',  # needed for SSL support
         'pyasn1',   # needed for SSL support
-        'unicodecsv',
         'progressbar'
     ],
 

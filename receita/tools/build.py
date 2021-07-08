@@ -2,7 +2,7 @@ import glob
 import json
 import os
 import sys
-import unicodecsv
+import csv
 
 
 class BaseCSV(object):
@@ -13,7 +13,7 @@ class BaseCSV(object):
         path = os.path.join(output, self._filename + '.csv')
         self._f = open(path, 'w')
 
-        self.writer = unicodecsv.DictWriter(
+        self.writer = csv.DictWriter(
             self._f, fieldnames=self._fields,
             extrasaction='ignore')
         self.writer.writeheader()
