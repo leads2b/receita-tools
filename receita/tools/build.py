@@ -167,7 +167,7 @@ class Build(object):
         for path in glob.glob(os.path.join(self.input, '*.json')):
             with open(path, 'r') as f:
                 try:
-                    data = json.load(f, encoding='utf-8')
+                    data = json.load(f)
                 except ValueError:
                     continue
 

@@ -65,7 +65,7 @@ class Get(object):
 
         path = os.path.join(self.output, '%s.json' % cnpj)
         with open(path, 'w') as f:
-            json.dump(data, f, encoding='utf-8')
+            json.dump(data, f)
 
     def _assure_output_dir(self, dir):
         # Try to create the directory

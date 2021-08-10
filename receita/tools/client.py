@@ -23,4 +23,4 @@ class Client(object):
             return None
         if response.status_code != 200:
             return None
-        return json.loads(response.content, encoding='utf-8')
+        return json.loads(response.content)
