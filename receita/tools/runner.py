@@ -14,6 +14,7 @@ class Runner(object):
     This class assumes that the CNPJ list consists only of valid data
     and that the web service will always return valid json.
     """
+
     _CLIENT_LIMIT = 20
 
     def __init__(self, cnpjs, days=None, token=None):
@@ -30,10 +31,9 @@ class Runner(object):
 
         self._threads = []
         for index in range(0, self._CLIENT_LIMIT):
-            self._threads.append(threading.Thread(
-                target=self.work,
-                name='worker-%s' % index
-            ))
+            self._threads.append(
+                threading.Thread(target=self.work, name="worker-%s" % index)
+            )
             self._threads[-1].start()
 
     def __iter__(self):

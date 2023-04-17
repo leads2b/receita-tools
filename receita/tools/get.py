@@ -10,27 +10,29 @@ from receita.tools.runner import Runner
 
 
 class Get(object):
-
     def __init__(self, file_, output, days):
         self.file = file_
         self.output = os.path.abspath(output)
         self.days = days
-        self.token = os.environ.get('RWS_TOKEN')
+        self.token = os.environ.get("RWS_TOKEN")
 
         if self.days and not self.token:
-            print('error: no token provided. Provide an access token using '
-                  'the environment variable RWS_TOKEN.')
+            print(
+                "error: no token provided. Provide an access token using "
+                "the environment variable RWS_TOKEN."
+            )
             sys.exit(1)
 
     def run(self):
         """Reads data from CNPJ list and write results to output directory."""
         self._assure_output_dir(self.output)
         companies = self.read()
-        print(('%s CNPJs found' % len(companies)))
+        print("%s CNPJs found" % len(companies))
 
         pbar = ProgressBar(
-            widgets=[Counter(), ' ', Percentage(), ' ', Bar(), ' ', Timer()],
-            maxval=len(companies)).start()
+            widgets=[Counter(), " ", Percentage(), " ", Bar(), " ", Timer()],
+            maxval=len(companies),
+        ).start()
 
         resolved = 0
         runner = Runner(companies, self.days, self.token)
@@ -41,7 +43,7 @@ class Get(object):
                 resolved = resolved + 1
                 pbar.update(resolved)
         except KeyboardInterrupt:
-            print('\naborted: waiting current requests to finish.')
+            print("\naborted: waiting current requests to finish.")
             runner.stop()
             return
 
@@ -63,8 +65,8 @@ class Get(object):
         """Writes json data to the output directory."""
         cnpj, data = data
 
-        path = os.path.join(self.output, '%s.json' % cnpj)
-        with open(path, 'w') as f:
+        path = os.path.join(self.output, "%s.json" % cnpj)
+        with open(path, "w") as f:
             json.dump(data, f)
 
     def _assure_output_dir(self, dir):
@@ -73,17 +75,17 @@ class Get(object):
             try:
                 os.mkdir(dir)
             except:
-                print(('failed to create output directory %s' % dir))
+                print("failed to create output directory %s" % dir)
                 sys.exit(1)
 
         # Be sure it is a directory
         if not os.path.isdir(dir):
-            print(('invalid output directory %s' % dir))
+            print("invalid output directory %s" % dir)
             sys.exit(1)
 
     def format(self, cnpj):
         """Removes all symbols except digits."""
-        return re.sub('\D', '', cnpj)
+        return re.sub("\D", "", cnpj)
 
     def valid(self, cnpj):
         """Check if a CNPJ is valid.
@@ -99,9 +101,9 @@ class Get(object):
         digs = cnpj[tam:]
 
         tot = 0
-        pos = tam-7
+        pos = tam - 7
         for i in range(tam, 0, -1):
-            tot = tot + int(nums[tam-i])*pos
+            tot = tot + int(nums[tam - i]) * pos
             pos = pos - 1
             if pos < 2:
                 pos = 9
@@ -112,9 +114,9 @@ class Get(object):
         tam = tam + 1
         nums = cnpj[:tam]
         tot = 0
-        pos = tam-7
+        pos = tam - 7
         for i in range(tam, 0, -1):
-            tot = tot + int(nums[tam-i])*pos
+            tot = tot + int(nums[tam - i]) * pos
             pos = pos - 1
             if pos < 2:
                 pos = 9

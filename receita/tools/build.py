@@ -6,45 +6,43 @@ import csv
 
 
 class BaseCSV(object):
-
-    ERROR = 'ERROR'
+    ERROR = "ERROR"
 
     def __init__(self, output):
-        path = os.path.join(output, self._filename + '.csv')
-        self._f = open(path, 'w')
+        path = os.path.join(output, self._filename + ".csv")
+        self._f = open(path, "w")
 
         self.writer = csv.DictWriter(
-            self._f, fieldnames=self._fields,
-            extrasaction='ignore')
+            self._f, fieldnames=self._fields, extrasaction="ignore"
+        )
         self.writer.writeheader()
 
 
 class _CompaniesCSV(BaseCSV):
-
-    _filename = 'companies'
+    _filename = "companies"
     _fields = [
-        'cnpj',
-        'tipo',
-        'abertura',
-        'nome',
-        'fantasia',
-        'natureza_juridica',
-        'logradouro',
-        'numero',
-        'complemento',
-        'cep',
-        'bairro',
-        'municipio',
-        'uf',
-        'email',
-        'telefone',
-        'efr',
-        'situacao',
-        'data_situacao',
-        'motivo_situacao',
-        'situacao_especial',
-        'data_situacao_especial',
-        'capital_social'
+        "cnpj",
+        "tipo",
+        "abertura",
+        "nome",
+        "fantasia",
+        "natureza_juridica",
+        "logradouro",
+        "numero",
+        "complemento",
+        "cep",
+        "bairro",
+        "municipio",
+        "uf",
+        "email",
+        "telefone",
+        "efr",
+        "situacao",
+        "data_situacao",
+        "motivo_situacao",
+        "situacao_especial",
+        "data_situacao_especial",
+        "capital_social",
     ]
 
     def visit(self, data):
@@ -52,42 +50,44 @@ class _CompaniesCSV(BaseCSV):
 
 
 class _ActivitiesCSV(BaseCSV):
-
-    _filename = 'activities'
+    _filename = "activities"
     _fields = [
-        'cnpj',
-        'tipo',
-        'codigo',
-        'descricao',
+        "cnpj",
+        "tipo",
+        "codigo",
+        "descricao",
     ]
 
     def visit(self, data):
-        if data['status'] == self.ERROR:
+        if data["status"] == self.ERROR:
             return
 
-        for activity in data['atividade_principal']:
-            self.writer.writerow({
-                'cnpj': data['cnpj'],
-                'tipo': 'principal',
-                'codigo': activity['code'],
-                'descricao': activity['text']
-            })
+        for activity in data["atividade_principal"]:
+            self.writer.writerow(
+                {
+                    "cnpj": data["cnpj"],
+                    "tipo": "principal",
+                    "codigo": activity["code"],
+                    "descricao": activity["text"],
+                }
+            )
 
-        for activity in data['atividades_secundarias']:
-            self.writer.writerow({
-                'cnpj': data['cnpj'],
-                'tipo': 'secundaria',
-                'codigo': activity['code'],
-                'descricao': activity['text']
-            })
+        for activity in data["atividades_secundarias"]:
+            self.writer.writerow(
+                {
+                    "cnpj": data["cnpj"],
+                    "tipo": "secundaria",
+                    "codigo": activity["code"],
+                    "descricao": activity["text"],
+                }
+            )
 
 
 class _ActivitiesSeenCSV(BaseCSV):
-
-    _filename = 'activities_seen'
+    _filename = "activities_seen"
     _fields = [
-        'codigo',
-        'descricao',
+        "codigo",
+        "descricao",
     ]
 
     def __init__(self, output):
@@ -96,47 +96,47 @@ class _ActivitiesSeenCSV(BaseCSV):
 
     def _process(self, activities):
         for activity in activities:
-            if activity['code'] == '00.00-0-00':
+            if activity["code"] == "00.00-0-00":
                 continue
-            key = (activity['code'], activity['text'],)
+            key = (
+                activity["code"],
+                activity["text"],
+            )
             if key in self._activities:
                 continue
-            self._activities[key] = activity['text']
-            self.writer.writerow({
-                'codigo': activity['code'],
-                'descricao': activity['text']
-            })
+            self._activities[key] = activity["text"]
+            self.writer.writerow(
+                {"codigo": activity["code"], "descricao": activity["text"]}
+            )
 
     def visit(self, data):
-        if data['status'] == self.ERROR:
+        if data["status"] == self.ERROR:
             return
-        self._process(data['atividade_principal'])
-        self._process(data['atividades_secundarias'])
+        self._process(data["atividade_principal"])
+        self._process(data["atividades_secundarias"])
 
 
 class _QSACSV(BaseCSV):
-
-    _filename = 'qsa'
+    _filename = "qsa"
     _fields = [
-        'cnpj',
-        'nome',
-        'qual',
-        'pais_origem',
-        'nome_rep_legal',
-        'qual_rep_legal',
+        "cnpj",
+        "nome",
+        "qual",
+        "pais_origem",
+        "nome_rep_legal",
+        "qual_rep_legal",
     ]
 
     def visit(self, data):
-        if data['status'] == self.ERROR:
+        if data["status"] == self.ERROR:
             return
 
-        for qsa in data['qsa']:
-            qsa.update({'cnpj': data['cnpj']})
+        for qsa in data["qsa"]:
+            qsa.update({"cnpj": data["cnpj"]})
             self.writer.writerow(qsa)
 
 
 class Build(object):
-
     def __init__(self, input_, output):
         self.input = os.path.abspath(input_)
         self.output = os.path.abspath(output)
@@ -148,11 +148,11 @@ class Build(object):
             try:
                 os.mkdir(self.output)
             except:
-                print(('failed to create output directory %s' % self.output))
+                print("failed to create output directory %s" % self.output)
 
         # Be sure it is a directory
         if not os.path.isdir(self.output):
-            print(('invalid output directory %s' % self.output))
+            print("invalid output directory %s" % self.output)
             sys.exit(1)
 
         # Create the CSV handlers
@@ -164,8 +164,8 @@ class Build(object):
         ]
 
         # Run by each company populating the CSV files
-        for path in glob.glob(os.path.join(self.input, '*.json')):
-            with open(path, 'r') as f:
+        for path in glob.glob(os.path.join(self.input, "*.json")):
+            with open(path, "r") as f:
                 try:
                     data = json.load(f)
                 except ValueError:
