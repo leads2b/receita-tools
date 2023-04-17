@@ -23,11 +23,11 @@ companies you like.
 
 .. |license| image:: https://img.shields.io/dub/l/vibe-d.svg?style=flat-square
 
-.. |ptbr| image:: https://lipis.github.io/flag-icon-css/flags/4x3/br.svg
+.. |ptbr| image:: https://flagicons.lipis.dev/flags/4x3/br.svg
     :target: https://github.com/vkruoso/receita-tools/blob/master/README.rst
     :height: 20px
 
-.. |en| image:: https://lipis.github.io/flag-icon-css/flags/4x3/us.svg
+.. |en| image:: https://flagicons.lipis.dev/flags/4x3/us.svg
     :target: https://github.com/vkruoso/receita-tools/blob/master/README.en.rst
     :height: 20px
 
