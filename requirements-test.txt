@@ -3,4 +3,3 @@ mock
 pytest
 pytest-mock
 progressbar
-unicodecsv

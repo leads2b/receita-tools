@@ -30,7 +30,7 @@ class Cli(object):
         parser.add_argument('command', help='command to run')
         args = parser.parse_args(sys.argv[1:2])
         if not hasattr(self, args.command):
-            print 'unrecognized command\n'
+            print('unrecognized command\n')
             parser.print_help()
             exit(1)
         getattr(self, args.command)()

@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 import os
@@ -60,7 +60,6 @@ setup(
         'pyOpenSSL',  # needed for SSL support
         'ndg-httpsclient',  # needed for SSL support
         'pyasn1',   # needed for SSL support
-        'unicodecsv',
         'progressbar'
     ],
 

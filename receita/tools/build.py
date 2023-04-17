@@ -2,7 +2,7 @@ import glob
 import json
 import os
 import sys
-import unicodecsv
+import csv
 
 
 class BaseCSV(object):
@@ -13,7 +13,7 @@ class BaseCSV(object):
         path = os.path.join(output, self._filename + '.csv')
         self._f = open(path, 'w')
 
-        self.writer = unicodecsv.DictWriter(
+        self.writer = csv.DictWriter(
             self._f, fieldnames=self._fields,
             extrasaction='ignore')
         self.writer.writeheader()
@@ -148,11 +148,11 @@ class Build(object):
             try:
                 os.mkdir(self.output)
             except:
-                print 'failed to create output directory %s' % self.output
+                print(('failed to create output directory %s' % self.output))
 
         # Be sure it is a directory
         if not os.path.isdir(self.output):
-            print 'invalid output directory %s' % self.output
+            print(('invalid output directory %s' % self.output))
             sys.exit(1)
 
         # Create the CSV handlers
@@ -167,7 +167,7 @@ class Build(object):
         for path in glob.glob(os.path.join(self.input, '*.json')):
             with open(path, 'r') as f:
                 try:
-                    data = json.load(f, encoding='utf-8')
+                    data = json.load(f)
                 except ValueError:
                     continue
 

@@ -22,5 +22,4 @@ class TestRunner(object):
         # Check results
         for cnpj in cnpj_batch:
             assert cnpj in data
-            assert data[cnpj] == json.loads(response(cnpj).content,
-                                            encoding='utf-8')
+            assert data[cnpj] == json.loads(response(cnpj).content)
