@@ -23,11 +23,11 @@ companies you like.
 
 .. |license| image:: https://img.shields.io/dub/l/vibe-d.svg?style=flat-square
 
-.. |ptbr| image:: https://lipis.github.io/flag-icon-css/flags/4x3/br.svg
+.. |ptbr| image:: https://flagicons.lipis.dev/flags/4x3/br.svg
     :target: https://github.com/vkruoso/receita-tools/blob/master/README.rst
     :height: 20px
 
-.. |en| image:: https://lipis.github.io/flag-icon-css/flags/4x3/us.svg
+.. |en| image:: https://flagicons.lipis.dev/flags/4x3/us.svg
     :target: https://github.com/vkruoso/receita-tools/blob/master/README.en.rst
     :height: 20px
 
@@ -133,48 +133,3 @@ Getting Help
 
 You can always use the ``--help`` option to get help about a command.
 You can also use it with the subcommands, like ``receita build --help``.
-
-
-Changelog
----------
-
-2.2.0
-+++++
-
-* `#17`_: Fix activities with the same code bug
-* `#15`_: Add QSA support
-
-2.1.1
-+++++
-
-* `#13`_: Documentation improvements
-* `#10`_: Add suport for ReceitaWS's `Comercial API <https://www.receitaws.com.br/pricing>`_
-* `#9`_ / `#12`_: Reduced memory usage when dealing with a big number of companies
-* `#5`_ / `#11`_: Add JSONP support on the API
-* `#3`_: Add new output file: all activities seen
-
-2.0.3
-+++++
-
-* `#2`_: Fixed error when handling invalid company data
-
-2.0.2
-+++++
-
-* First official release of Python package *receita-tools*
-
-1.0.0
-+++++
-
-* A PHP release the do the webservice work. Deprecated.
-
-.. _#2: https://github.com/vkruoso/receita-tools/issues/2
-.. _#3: https://github.com/vkruoso/receita-tools/issues/3
-.. _#5: https://github.com/vkruoso/receita-tools/issues/5
-.. _#9: https://github.com/vkruoso/receita-tools/issues/9
-.. _#10: https://github.com/vkruoso/receita-tools/issues/10
-.. _#11: https://github.com/vkruoso/receita-tools/issues/11
-.. _#12: https://github.com/vkruoso/receita-tools/issues/12
-.. _#13: https://github.com/vkruoso/receita-tools/issues/13
-.. _#15: https://github.com/vkruoso/receita-tools/issues/15
-.. _#17: https://github.com/vkruoso/receita-tools/issues/17
