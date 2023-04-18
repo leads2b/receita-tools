@@ -1,7 +1,7 @@
 receita-tools
 =============
 
-|pypi| |travis| |license|
+|pypi| |license|
 
 **Idiomas do README:** |ptbr| |en|
 
@@ -17,18 +17,14 @@ das empresas que deseja.
 .. |pypi| image:: https://img.shields.io/pypi/v/receita-tools.svg?style=flat-square
     :target: https://pypi.python.org/pypi/receita-tools
 
-.. |travis| image:: https://img.shields.io/travis/vkruoso/receita-tools.svg?style=flat-square
-    :target: https://travis-ci.org/vkruoso/receita-tools
-    :alt: Build Status
-
 .. |license| image:: https://img.shields.io/dub/l/vibe-d.svg?style=flat-square
 
 .. |ptbr| image:: https://flagicons.lipis.dev/flags/4x3/br.svg
-    :target: https://github.com/vkruoso/receita-tools/blob/master/README.rst
+    :target: https://github.com/leads2b/receita-tools/blob/master/README.rst
     :height: 20px
 
 .. |en| image:: https://flagicons.lipis.dev/flags/4x3/us.svg
-    :target: https://github.com/vkruoso/receita-tools/blob/master/README.en.rst
+    :target: https://github.com/leads2b/receita-tools/blob/master/README.en.rst
     :height: 20px
 
 Instalação
