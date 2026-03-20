@@ -1,0 +1,31 @@
+{
+  "status": "OK",
+  "ultima_atualizacao": "2019-08-24T14:15:22Z",
+  "cnpj": "03420926004979",
+  "registros": [
+    {
+      "uf": "SP",
+      "ie": "123456789",
+      "tipo_ie": "Principal",
+      "situacao_ie": "Ativa",
+      "data_situacao": "2019-01-01",
+      "regime_icms": "Normal",
+      "situacao_cnpj": "Ativa",
+      "data_atualizacao": "2019-08-24"
+    },
+    {
+      "uf": "RJ",
+      "ie": "987654321",
+      "tipo_ie": "Secundaria",
+      "situacao_ie": "Ativa",
+      "data_situacao": "2020-06-15",
+      "regime_icms": "Simples Nacional",
+      "situacao_cnpj": "Ativa",
+      "data_atualizacao": "2020-06-15"
+    }
+  ],
+  "billing": {
+    "free": false,
+    "database": false
+  }
+}

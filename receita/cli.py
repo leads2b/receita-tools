@@ -9,12 +9,16 @@ import sys
 from receita.tools.get import Get
 from receita.tools.build import Build
 
-
 BASE_USAGE = """receita <command> [<args>]
 
 the available commands are:
   get         download information about a list of companies
-  build       create CSV files from the retrieved information"""
+  build       create CSV files from the retrieved information
+
+supported API types (--type):
+  cnpj        company registration data (default)
+  simples     Simples Nacional / SIMEI data
+  ccc         Cadastro de Contribuinte / Inscrição Estadual data"""
 
 
 class Cli(object):
@@ -56,10 +60,17 @@ class Cli(object):
         parser.add_argument(
             "--output", help="directory to save the output", default="data"
         )
+        parser.add_argument(
+            "--type",
+            dest="api_type",
+            choices=["cnpj", "simples", "ccc"],
+            default="cnpj",
+            help="API type to query (default: cnpj)",
+        )
         args = parser.parse_args(sys.argv[2:])
 
         # Execute
-        Get(args.list, args.output, args.days).run()
+        Get(args.list, args.output, args.days, args.api_type).run()
 
     def build(self):
         parser = argparse.ArgumentParser(
@@ -72,10 +83,17 @@ class Cli(object):
         parser.add_argument(
             "--input", help="directory to get input from", default="data"
         )
+        parser.add_argument(
+            "--type",
+            dest="api_type",
+            choices=["cnpj", "simples", "ccc"],
+            default="cnpj",
+            help="API type that was queried (default: cnpj)",
+        )
         args = parser.parse_args(sys.argv[2:])
 
         # Execute
-        Build(args.input, args.output).run()
+        Build(args.input, args.output, args.api_type).run()
 
 
 def main():

@@ -1,0 +1,27 @@
+{
+  "cnpj": "03420926004979",
+  "simples": {
+    "optante": true,
+    "data_opcao": "2019-08-24T14:15:22Z",
+    "historico": {
+      "periodos_anteriores": [
+        {
+          "inicio": "2014-01-01",
+          "fim": "2018-12-31",
+          "detalhamento": "Optante pelo Simples Nacional"
+        }
+      ]
+    }
+  },
+  "simei": {
+    "optante": false,
+    "data_opcao": null,
+    "historico": {
+      "periodos_anteriores": []
+    }
+  },
+  "billing": {
+    "free": false,
+    "database": false
+  }
+}

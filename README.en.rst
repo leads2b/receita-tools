@@ -71,6 +71,12 @@ directory you ran the command. You can change the directory by using the
 ``--output`` option. Keep in mind that you can use absolute or relative
 paths too.
 
+The ``--type`` option lets you choose which API to query:
+
+* ``cnpj`` (default): company registration data from Receita Federal;
+* ``simples``: Simples Nacional and SIMEI data;
+* ``ccc``: Cadastro Centralizado de Contribuinte (State Tax Registration) data.
+
 You can use the webservice Public API or the Comercial API. Below we describe
 how to use each of them.
 
@@ -103,6 +109,13 @@ command and setting the data tolerance to 20 days::
     export RWS_TOKEN="<my-token>"
     receita get list.csv --output cnpj_data -d 20
 
+The ``simples`` and ``ccc`` APIs are commercial-only and always require
+the ``-d`` and ``RWS_TOKEN`` parameters::
+
+    export RWS_TOKEN="<my-token>"
+    receita get list.csv --type simples -d 20 --output simples_data
+    receita get list.csv --type ccc -d 20 --output ccc_data
+
 The ``build`` command
 +++++++++++++++++++++
 
@@ -118,14 +131,45 @@ be stored.
 
     receita build --input cnpj_data --output results
 
-This command will generate three files at the output directory:
+The API type must match the type used in the ``get`` command::
+
+    receita build --type simples --input simples_data --output results
+    receita build --type ccc --input ccc_data --output results
+
+The generated files depend on the API type:
+
+**CNPJ** (default):
 
 * **companies.csv**: data for every company retrieved;
 * **activities.csv**: list of companies activities (primary/secondary);
-* **activities_seen.csv**: the full set of activities from those companies.
+* **activities_seen.csv**: the full set of activities from those companies;
+* **qsa.csv**: board members and partners of the companies.
+
+**Simples Nacional** (``--type simples``):
+
+* **simples.csv**: current Simples Nacional and SIMEI status;
+* **simples_historico.csv**: historical Simples and SIMEI option periods.
+
+**CCC** (``--type ccc``):
+
+* **ccc.csv**: state tax registrations (Inscrição Estadual) for each company.
 
 Getting Help
 ++++++++++++
 
 You can always use the ``--help`` option to get help about a command.
 You can also use it with the subcommands, like ``receita build --help``.
+
+Docker Usage
+++++++++++++
+
+You can use the Docker image to run commands without installing anything
+locally. First, build the image::
+
+    docker build -t receita-tools .
+
+Then run commands by mounting a local directory for data::
+
+    docker run --rm -v $(pwd):/data receita-tools get list.csv --output data -d 20
+    docker run --rm -v $(pwd):/data receita-tools build --input data --output results
+    docker run --rm -v $(pwd):/data -e RWS_TOKEN="<my-token>" receita-tools get list.csv --type simples -d 20

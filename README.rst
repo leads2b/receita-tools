@@ -73,6 +73,12 @@ neste aquivo CSV. Por padrão os dados recuperados serão salvos no diretório
 alterar o diretório de saída utilizando a oção ``--output``. É possível
 especificar diretórios absolutos ou relativos.
 
+A opção ``--type`` permite escolher qual API será consultada:
+
+* ``cnpj`` (padrão): dados cadastrais da empresa na Receita Federal;
+* ``simples``: dados do Simples Nacional e SIMEI;
+* ``ccc``: dados do Cadastro Centralizado de Contribuinte (Inscrição Estadual).
+
 Existem duas APIs para consulta, sendo uma Pública e outra Comercial. Abaixo
 descrevemos como utilizar cada uma delas.
 
@@ -106,6 +112,13 @@ utilizando o comando ``export`` e uma tolerância de 20 dias::
     export RWS_TOKEN="<my-token>"
     receita get list.csv --output cnpj_data -d 20
 
+As APIs ``simples`` e ``ccc`` são exclusivamente comerciais e sempre requerem
+os parâmetros ``-d`` e ``RWS_TOKEN``::
+
+    export RWS_TOKEN="<my-token>"
+    receita get list.csv --type simples -d 20 --output simples_data
+    receita get list.csv --type ccc -d 20 --output ccc_data
+
 O comando ``build``
 +++++++++++++++++++
 
@@ -121,14 +134,45 @@ onde os arquivos gerados serão salvos.
 
     receita build --input cnpj_data --output results
 
-Este comando irá gerar três arquivos no diretório de saída:
+O tipo de API deve corresponder ao tipo utilizado no comando ``get``::
+
+    receita build --type simples --input simples_data --output results
+    receita build --type ccc --input ccc_data --output results
+
+Os arquivos gerados dependem do tipo de API:
+
+**CNPJ** (padrão):
 
 * **companies.csv**: dados das empresas salvas;
 * **activities.csv**: lista das atividades das empresas (primárias/secundárias);
-* **activities_seen.csv**: todas as atividades destas empresas.
+* **activities_seen.csv**: todas as atividades destas empresas;
+* **qsa.csv**: quadro societário das empresas.
+
+**Simples Nacional** (``--type simples``):
+
+* **simples.csv**: situação atual do Simples Nacional e SIMEI;
+* **simples_historico.csv**: histórico de opções pelo Simples e SIMEI.
+
+**CCC** (``--type ccc``):
+
+* **ccc.csv**: inscrições estaduais da empresa.
 
 Obtendo Ajuda
 +++++++++++++
 
 É possível utilizar a opção ``--help`` para obter ajuda sobre um comando.
 Você também pode utilizá-lo com os subcomandos, como ``receita build --help``.
+
+Utilização com Docker
++++++++++++++++++++++
+
+Você pode utilizar a imagem Docker para rodar os comandos sem instalar
+nada localmente. Primeiro, construa a imagem::
+
+    docker build -t receita-tools .
+
+Depois, execute os comandos montando um diretório local para os dados::
+
+    docker run --rm -v $(pwd):/data receita-tools get list.csv --output data -d 20
+    docker run --rm -v $(pwd):/data receita-tools build --input data --output results
+    docker run --rm -v $(pwd):/data -e RWS_TOKEN="<my-token>" receita-tools get list.csv --type simples -d 20

@@ -10,11 +10,19 @@ from receita.tools.runner import Runner
 
 
 class Get(object):
-    def __init__(self, file_, output, days):
+    def __init__(self, file_, output, days, api_type="cnpj"):
         self.file = file_
         self.output = os.path.abspath(output)
         self.days = days
+        self.api_type = api_type
         self.token = os.environ.get("RWS_TOKEN")
+
+        if self.api_type in ("simples", "ccc") and not self.days:
+            print(
+                "error: the %s API requires the -d option to specify "
+                "the maximum data deprecation in days." % self.api_type
+            )
+            sys.exit(1)
 
         if self.days and not self.token:
             print(
@@ -35,7 +43,7 @@ class Get(object):
         ).start()
 
         resolved = 0
-        runner = Runner(companies, self.days, self.token)
+        runner = Runner(companies, self.days, self.token, self.api_type)
 
         try:
             for data in runner:
@@ -65,7 +73,7 @@ class Get(object):
         """Writes json data to the output directory."""
         cnpj, data = data
 
-        path = os.path.join(self.output, "%s.json" % cnpj)
+        path = os.path.join(self.output, "%s_%s.json" % (self.api_type, cnpj))
         with open(path, "w") as f:
             json.dump(data, f)
 

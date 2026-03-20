@@ -29,17 +29,20 @@ def response():
     return get
 
 
+_CNPJ_BATCH = [
+    "03420926004979",
+    "03420926004980",
+    "21030611000152",
+    "23713354000189",
+    "60580263000149",
+]
+
+
 @pytest.fixture
 def cnpj_batch():
-    return [
-        "03420926004979",
-        "03420926004980",
-        "21030611000152",
-        "23713354000189",
-        "60580263000149",
-    ]
+    return _CNPJ_BATCH
 
 
-@pytest.fixture(params=cnpj_batch())
+@pytest.fixture(params=_CNPJ_BATCH)
 def cnpj(request):
     return request.param
