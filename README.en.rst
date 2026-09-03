@@ -116,6 +116,15 @@ the ``-d`` and ``RWS_TOKEN`` parameters::
     receita get list.csv --type simples -d 20 --output simples_data
     receita get list.csv --type ccc -d 20 --output ccc_data
 
+Alternative base URL
+********************
+
+The ``--base-url`` option queries a base URL other than the default
+(``https://www.receitaws.com.br/v1``), for when the service provides a
+dedicated address::
+
+    receita get list.csv --base-url https://dedicated-address/v1 -d 1 --output cnpj_data
+
 The ``build`` command
 +++++++++++++++++++++
 
@@ -164,12 +173,16 @@ Docker Usage
 ++++++++++++
 
 You can use the Docker image to run commands without installing anything
-locally. First, build the image::
+locally. The official image is published on Docker Hub::
 
-    docker build -t receita-tools .
+    docker pull leads2b/receita-tools
+
+Alternatively, you can build the image locally::
+
+    docker build -t leads2b/receita-tools .
 
 Then run commands by mounting a local directory for data::
 
-    docker run --rm -v $(pwd):/data receita-tools get list.csv --output data -d 20
-    docker run --rm -v $(pwd):/data receita-tools build --input data --output results
-    docker run --rm -v $(pwd):/data -e RWS_TOKEN="<my-token>" receita-tools get list.csv --type simples -d 20
+    docker run --rm -v $(pwd):/data leads2b/receita-tools get list.csv --output data -d 20
+    docker run --rm -v $(pwd):/data leads2b/receita-tools build --input data --output results
+    docker run --rm -v $(pwd):/data -e RWS_TOKEN="<my-token>" leads2b/receita-tools get list.csv --type simples -d 20

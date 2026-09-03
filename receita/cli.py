@@ -6,6 +6,7 @@ This will be called to run various operations on companies data.
 import argparse
 import sys
 
+from receita.tools.client import DEFAULT_BASE_URL
 from receita.tools.get import Get
 from receita.tools.build import Build
 
@@ -55,7 +56,7 @@ class Cli(object):
             "-d",
             metavar="DAYS",
             dest="days",
-            help="maximum data deprecation allowed in days",
+            help="maximum allowed data age in days",
         )
         parser.add_argument(
             "--output", help="directory to save the output", default="data"
@@ -67,10 +68,15 @@ class Cli(object):
             default="cnpj",
             help="API type to query (default: cnpj)",
         )
+        parser.add_argument(
+            "--base-url",
+            dest="base_url",
+            help="base URL of the API (default: %s)" % DEFAULT_BASE_URL,
+        )
         args = parser.parse_args(sys.argv[2:])
 
         # Execute
-        Get(args.list, args.output, args.days, args.api_type).run()
+        Get(args.list, args.output, args.days, args.api_type, args.base_url).run()
 
     def build(self):
         parser = argparse.ArgumentParser(

@@ -1,6 +1,8 @@
 import json
 import requests
 
+DEFAULT_BASE_URL = "https://www.receitaws.com.br/v1"
+
 API_PATHS = {
     "cnpj": "cnpj",
     "simples": "simples",
@@ -9,15 +11,21 @@ API_PATHS = {
 
 
 class Client(object):
-    def __init__(self, cnpj, days=None, token=None, api_type="cnpj"):
+    def __init__(self, cnpj, days=None, token=None, api_type="cnpj", base_url=None):
         self.cnpj = cnpj
         self.days = days
         self.token = token
         self.api_type = api_type
+        self.base_url = (base_url or DEFAULT_BASE_URL).rstrip("/")
 
     def get(self):
-        path = API_PATHS[self.api_type]
-        url = "https://www.receitaws.com.br/v1/%s/%s" % (path, self.cnpj)
+        path = API_PATHS.get(self.api_type)
+        if path is None:
+            raise ValueError(
+                "invalid api_type %r; valid options are: %s"
+                % (self.api_type, ", ".join(sorted(API_PATHS.keys())))
+            )
+        url = "%s/%s/%s" % (self.base_url, path, self.cnpj)
         headers = {}
 
         if self.days and self.token:

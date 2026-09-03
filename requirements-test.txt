@@ -1,5 +1,2 @@
-requests
-mock
 pytest
 pytest-mock
-progressbar

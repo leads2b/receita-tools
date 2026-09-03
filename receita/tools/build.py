@@ -288,7 +288,13 @@ class Build(object):
             sys.exit(1)
 
         # Create the CSV handlers
-        visitor_classes = VISITORS.get(self.api_type, VISITORS["cnpj"])
+        visitor_classes = VISITORS.get(self.api_type)
+        if visitor_classes is None:
+            print(
+                "invalid api_type %s; supported types are: %s"
+                % (self.api_type, ", ".join(sorted(VISITORS.keys())))
+            )
+            sys.exit(1)
         visitors = [cls(self.output) for cls in visitor_classes]
 
         # Run by each company populating the CSV files

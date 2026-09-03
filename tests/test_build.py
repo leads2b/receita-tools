@@ -1,7 +1,5 @@
 import csv
 import json
-import os
-import tempfile
 
 from receita.tools.build import Build
 
