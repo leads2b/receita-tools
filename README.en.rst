@@ -86,6 +86,11 @@ about the CNPJs it should look for. This file must have at least on column,
 and the first one should contain the CNPJ of the companies you want to get
 information.
 
+Both the traditional numeric format and the new alphanumeric format are
+accepted, with or without punctuation. In both cases the last two characters
+are the check digits, which are verified before querying so that invalid
+values do not consume a request to the webservice.
+
 You can run ``receita get cnpj.csv`` to get information from that CSV file.
 The retrieved data will be saved by default at the ``data`` directory in the
 directory you ran the command. You can change the directory by using the

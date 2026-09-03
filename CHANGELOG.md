@@ -9,6 +9,10 @@
   (`simples.csv`, `simples_historico.csv`, `ccc.csv`)
 * add `--base-url` to the `get` command to query an API base URL other than the
   default one
+* accept the alphanumeric CNPJ format in the CSV input, with or without
+  punctuation: the first twelve characters may be letters or digits and the last
+  two remain the check digits, which are verified before querying
+  ([#38](https://github.com/leads2b/receita-tools/issues/38))
 * provide an official Docker image published to Docker Hub (`leads2b/receita-tools`)
 
 ### build

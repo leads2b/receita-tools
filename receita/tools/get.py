@@ -93,17 +93,48 @@ class Get(object):
             sys.exit(1)
 
     def format(self, cnpj):
-        """Removes all symbols except digits."""
-        return re.sub(r"\D", "", cnpj)
+        """Removes formatting symbols and normalizes to upper case."""
+        return re.sub(r"[^0-9A-Za-z]", "", str(cnpj)).upper()
+
+    def _check_digit(self, value):
+        """Computes one CNPJ check digit for the given characters.
+
+        Characters are weighted by their distance to the check digits. The
+        alphanumeric format allows letters, so each character is converted
+        using the ASCII table, which keeps the value of the digits.
+        """
+        total = 0
+        weight = 2
+        for char in reversed(value):
+            total = total + (ord(char) - 48) * weight
+            weight = weight + 1
+            if weight > 9:
+                weight = 2
+        rest = total % 11
+        return 0 if rest < 2 else 11 - rest
 
     def valid(self, cnpj):
         """Check if a CNPJ is valid.
 
         We should avoid sending invalid CNPJ to the web service as we know
         it is going to be a waste of bandwidth. Assumes CNPJ is a string.
+
+        Both the numeric and the alphanumeric formats are accepted: the
+        first twelve characters may be letters or digits and the last two
+        are always numeric check digits. The same checksum rules apply to
+        both, as the numeric format is just a subset of the alphanumeric one.
         """
-        if len(cnpj) != 14:
+        cnpj = str(cnpj or "").upper()
+
+        if not re.fullmatch(r"[0-9A-Z]{12}[0-9]{2}", cnpj):
             return False
+
+        base = cnpj[:12]
+        digits = cnpj[12:]
+
+        if self._check_digit(base) != int(digits[0]):
+            return False
+        return self._check_digit(base + digits[0]) == int(digits[1])
 
         tam = 12
         nums = cnpj[:tam]
