@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "receita-tools"
+dynamic = ["version"]
+description = "Tools to manipulate Receita's company data."
+readme = { file = "README.rst", content-type = "text/x-rst" }
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Vinicius K. Ruoso", email = "vinicius.ruoso@gmail.com" },
+]
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.32,<3",
+    "progressbar2>=4.5,<5",
+]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Development Status :: 5 - Production/Stable",
+    "Natural Language :: English",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Topic :: Utilities",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8,<10",
+    "pytest-mock>=3.14,<4",
+]
+
+[project.urls]
+Homepage = "https://github.com/leads2b/receita-tools"
+Repository = "https://github.com/leads2b/receita-tools"
+Changelog = "https://github.com/leads2b/receita-tools/blob/master/CHANGELOG.md"
+
+[project.scripts]
+receita = "receita.cli:main"
+
+[tool.setuptools]
+packages = ["receita", "receita.tools"]
+
+[tool.setuptools.dynamic]
+version = { attr = "receita.__version__" }

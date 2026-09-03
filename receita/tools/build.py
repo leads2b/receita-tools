@@ -17,6 +17,9 @@ class BaseCSV(object):
         )
         self.writer.writeheader()
 
+    def close(self):
+        self._f.close()
+
 
 class _CompaniesCSV(BaseCSV):
     _filename = "companies"
@@ -27,6 +30,7 @@ class _CompaniesCSV(BaseCSV):
         "nome",
         "fantasia",
         "natureza_juridica",
+        "porte",
         "logradouro",
         "numero",
         "complemento",
@@ -43,10 +47,35 @@ class _CompaniesCSV(BaseCSV):
         "situacao_especial",
         "data_situacao_especial",
         "capital_social",
+        "simples_optante",
+        "simples_data_opcao",
+        "simples_data_exclusao",
+        "simples_ultima_atualizacao",
+        "simei_optante",
+        "simei_data_opcao",
+        "simei_data_exclusao",
+        "simei_ultima_atualizacao",
     ]
 
     def visit(self, data):
-        self.writer.writerow(data)
+        # Flatten simples and simei data
+        row = data.copy()
+
+        if "simples" in data and data["simples"]:
+            row["simples_optante"] = data["simples"].get("optante")
+            row["simples_data_opcao"] = data["simples"].get("data_opcao")
+            row["simples_data_exclusao"] = data["simples"].get("data_exclusao")
+            row["simples_ultima_atualizacao"] = data["simples"].get(
+                "ultima_atualizacao"
+            )
+
+        if "simei" in data and data["simei"]:
+            row["simei_optante"] = data["simei"].get("optante")
+            row["simei_data_opcao"] = data["simei"].get("data_opcao")
+            row["simei_data_exclusao"] = data["simei"].get("data_exclusao")
+            row["simei_ultima_atualizacao"] = data["simei"].get("ultima_atualizacao")
+
+        self.writer.writerow(row)
 
 
 class _ActivitiesCSV(BaseCSV):
@@ -136,10 +165,116 @@ class _QSACSV(BaseCSV):
             self.writer.writerow(qsa)
 
 
+class _SimplesCSV(BaseCSV):
+    _filename = "simples"
+    _fields = [
+        "cnpj",
+        "simples_optante",
+        "simples_data_opcao",
+        "simei_optante",
+        "simei_data_opcao",
+    ]
+
+    def visit(self, data):
+        row = {"cnpj": data.get("cnpj")}
+
+        simples = data.get("simples")
+        if simples:
+            row["simples_optante"] = simples.get("optante")
+            row["simples_data_opcao"] = simples.get("data_opcao")
+
+        simei = data.get("simei")
+        if simei:
+            row["simei_optante"] = simei.get("optante")
+            row["simei_data_opcao"] = simei.get("data_opcao")
+
+        self.writer.writerow(row)
+
+
+class _SimplesHistoricoCSV(BaseCSV):
+    _filename = "simples_historico"
+    _fields = [
+        "cnpj",
+        "tipo",
+        "inicio",
+        "fim",
+        "detalhamento",
+    ]
+
+    def _process_historico(self, data, tipo, historico):
+        if not historico:
+            return
+        periodos = historico.get("periodos_anteriores", [])
+        if not periodos:
+            return
+        for periodo in periodos:
+            self.writer.writerow(
+                {
+                    "cnpj": data.get("cnpj"),
+                    "tipo": tipo,
+                    "inicio": periodo.get("inicio"),
+                    "fim": periodo.get("fim"),
+                    "detalhamento": periodo.get("detalhamento"),
+                }
+            )
+
+    def visit(self, data):
+        simples = data.get("simples")
+        if simples:
+            self._process_historico(data, "simples", simples.get("historico"))
+
+        simei = data.get("simei")
+        if simei:
+            self._process_historico(data, "simei", simei.get("historico"))
+
+
+class _CCCCSV(BaseCSV):
+    _filename = "ccc"
+    _fields = [
+        "cnpj",
+        "uf",
+        "ie",
+        "tipo_ie",
+        "situacao_ie",
+        "data_situacao",
+        "regime_icms",
+        "situacao_cnpj",
+        "data_atualizacao",
+    ]
+
+    def visit(self, data):
+        if data.get("status") == self.ERROR:
+            return
+
+        cnpj = data.get("cnpj")
+        for registro in data.get("registros", []):
+            row = registro.copy()
+            row["cnpj"] = cnpj
+            self.writer.writerow(row)
+
+
+VISITORS = {
+    "cnpj": [
+        _CompaniesCSV,
+        _ActivitiesCSV,
+        _ActivitiesSeenCSV,
+        _QSACSV,
+    ],
+    "simples": [
+        _SimplesCSV,
+        _SimplesHistoricoCSV,
+    ],
+    "ccc": [
+        _CCCCSV,
+    ],
+}
+
+
 class Build(object):
-    def __init__(self, input_, output):
+    def __init__(self, input_, output, api_type="cnpj"):
         self.input = os.path.abspath(input_)
         self.output = os.path.abspath(output)
+        self.api_type = api_type
 
     def run(self):
         """Reads data from disk and generates CSV files."""
@@ -156,20 +291,28 @@ class Build(object):
             sys.exit(1)
 
         # Create the CSV handlers
-        visitors = [
-            _CompaniesCSV(self.output),
-            _ActivitiesCSV(self.output),
-            _ActivitiesSeenCSV(self.output),
-            _QSACSV(self.output),
-        ]
+        visitor_classes = VISITORS.get(self.api_type)
+        if visitor_classes is None:
+            print(
+                "invalid api_type %s; supported types are: %s"
+                % (self.api_type, ", ".join(sorted(VISITORS.keys())))
+            )
+            sys.exit(1)
+        visitors = [cls(self.output) for cls in visitor_classes]
 
         # Run by each company populating the CSV files
-        for path in glob.glob(os.path.join(self.input, "*.json")):
-            with open(path, "r") as f:
-                try:
-                    data = json.load(f)
-                except ValueError:
-                    continue
+        try:
+            for path in glob.glob(
+                os.path.join(self.input, "%s_*.json" % self.api_type)
+            ):
+                with open(path, "r") as f:
+                    try:
+                        data = json.load(f)
+                    except ValueError:
+                        continue
 
-                for visitor in visitors:
-                    visitor.visit(data)
+                    for visitor in visitors:
+                        visitor.visit(data)
+        finally:
+            for visitor in visitors:
+                visitor.close()

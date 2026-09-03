@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 
 import pytest
@@ -23,23 +24,30 @@ def response():
                 self.content = f.read()
 
     def get(*args, **kwargs):
-        cnpj = args[0].split("/")[-1]
+        # The URL may include extra path segments and a query string
+        # (e.g. .../simples/<cnpj>/days/30?fallback=noCache), so pick the
+        # 14-digit CNPJ token rather than the last path segment.
+        match = re.search(r"\d{14}", args[0])
+        cnpj = match.group(0) if match else args[0].split("/")[-1]
         return Response(cnpj)
 
     return get
 
 
+_CNPJ_BATCH = [
+    "03420926004979",
+    "03420926004980",
+    "21030611000152",
+    "23713354000189",
+    "60580263000149",
+]
+
+
 @pytest.fixture
 def cnpj_batch():
-    return [
-        "03420926004979",
-        "03420926004980",
-        "21030611000152",
-        "23713354000189",
-        "60580263000149",
-    ]
+    return _CNPJ_BATCH
 
 
-@pytest.fixture(params=cnpj_batch())
+@pytest.fixture(params=_CNPJ_BATCH)
 def cnpj(request):
     return request.param

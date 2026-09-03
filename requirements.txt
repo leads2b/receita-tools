@@ -1,0 +1,10 @@
+# Pinned runtime dependencies for reproducible builds.
+# Regenerate: pip install requests progressbar2 && pip freeze
+certifi==2026.7.22
+charset-normalizer==3.5.1
+idna==3.19
+progressbar2==4.6.0
+python-utils==4.0.1
+requests==2.34.2
+typing_extensions==4.16.0
+urllib3==2.7.0

@@ -1,3 +1,29 @@
+# [3.0.0](https://github.com/leads2b/receita-tools/compare/2.2.0...3.0.0) (2026-09-03)
+
+
+### features
+
+* add `--type` option to query the **simples** (Simples Nacional / SIMEI) and **ccc**
+  (Cadastro Centralizado de Contribuinte / Inscrição Estadual) APIs, in addition to the
+  default **cnpj** registration data, with dedicated parsers and CSV outputs
+  (`simples.csv`, `simples_historico.csv`, `ccc.csv`)
+* add `--base-url` to the `get` command to query an API base URL other than the
+  default one
+* provide an official Docker image published to Docker Hub (`leads2b/receita-tools`)
+
+### build
+
+* migrate packaging to a PEP 621 `pyproject.toml` (removes `setup.py`); drop the legacy
+  SSL shims (`pyOpenSSL`, `ndg-httpsclient`, `pyasn1`) and switch to `progressbar2`
+* publish to PyPI from CI using Trusted Publishing, and run tests on Python 3.10–3.12
+
+### BREAKING CHANGES
+
+* `get` now writes downloaded data as `<type>_<cnpj>.json` (previously `<cnpj>.json`), and
+  `build` only reads files matching the requested `--type`. Data downloaded by 2.x must be
+  re-downloaded before running `build` with 3.0.0.
+
+
 #  (2023-04-17)
 
 

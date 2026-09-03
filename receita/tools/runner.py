@@ -1,7 +1,7 @@
 import queue
 import threading
 
-from receita.tools.client import Client
+from receita.tools.client import Client, validate_api_type
 
 
 class Runner(object):
@@ -17,7 +17,11 @@ class Runner(object):
 
     _CLIENT_LIMIT = 20
 
-    def __init__(self, cnpjs, days=None, token=None):
+    def __init__(self, cnpjs, days=None, token=None, api_type="cnpj", base_url=None):
+        # Validate before starting the workers: an error raised inside a
+        # worker would leave the iterator waiting for results forever.
+        validate_api_type(api_type)
+
         self._returned = 0
         self._stop = False
         self._list = cnpjs
@@ -25,6 +29,8 @@ class Runner(object):
         self._results = queue.Queue()
         self._days = days
         self._token = token
+        self._api_type = api_type
+        self._base_url = base_url
 
         for cnpj in self._list:
             self._todo.put(cnpj)
@@ -65,7 +71,9 @@ class Runner(object):
             except queue.Empty:
                 continue
 
-            data = Client(cnpj, self._days, self._token).get()
+            data = Client(
+                cnpj, self._days, self._token, self._api_type, self._base_url
+            ).get()
             if data:
                 self._results.put((cnpj, data))
             else:
