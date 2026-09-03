@@ -12,14 +12,17 @@ license-files = ["LICENSE"]
 authors = [
     { name = "Vinicius K. Ruoso", email = "vinicius.ruoso@gmail.com" },
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-    "requests",
-    "progressbar2",
+    "requests>=2.32,<3",
+    "progressbar2>=4.5,<5",
 ]
 classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Development Status :: 5 - Production/Stable",
     "Natural Language :: English",
     "Environment :: Web Environment",
@@ -33,8 +36,8 @@ classifiers = [
 
 [project.optional-dependencies]
 test = [
-    "pytest",
-    "pytest-mock",
+    "pytest>=8,<10",
+    "pytest-mock>=3.14,<4",
 ]
 
 [project.urls]

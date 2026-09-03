@@ -30,7 +30,36 @@ companies you like.
 Installation
 ------------
 
-To install the tool the easiest way is to use ``pip``::
+Using Docker
+++++++++++++
+
+You can use the Docker image to run commands without installing anything
+locally. The official image is published on Docker Hub:
+
+.. code-block:: bash
+
+    docker pull leads2b/receita-tools
+
+Alternatively, you can build the image locally:
+
+.. code-block:: bash
+
+    docker build -t leads2b/receita-tools .
+
+Then run commands by mounting a local directory for data:
+
+.. code-block:: bash
+
+    docker run --rm -v $(pwd):/data -e RWS_TOKEN="<my-token>" leads2b/receita-tools get list.csv --output data -d 20
+    docker run --rm -v $(pwd):/data leads2b/receita-tools build --input data --output results
+    docker run --rm -v $(pwd):/data -e RWS_TOKEN="<my-token>" leads2b/receita-tools get list.csv --type simples -d 20
+
+Using pip
++++++++++
+
+To install the tool the easiest way is to use ``pip``:
+
+.. code-block:: bash
 
     pip install receita-tools
 
@@ -86,7 +115,9 @@ Public API
 By default the ``get`` command will use the Public API to get information about
 companies. There is no extra configuration or command to perform, so you
 are ready to go. For example, to get data from the companies listed in the
-``list.csv`` file and save to ``cnpj_data`` folder using the Public API::
+``list.csv`` file and save to ``cnpj_data`` folder using the Public API:
+
+.. code-block:: bash
 
     receita get list.csv --output cnpj_data
 
@@ -104,13 +135,17 @@ using the ``-d`` option.
 
 To set the environment variable you can use the ``export`` command or simply
 define it when getting information. Here is a sample using the ``export``
-command and setting the data tolerance to 20 days::
+command and setting the data tolerance to 20 days:
+
+.. code-block:: bash
 
     export RWS_TOKEN="<my-token>"
     receita get list.csv --output cnpj_data -d 20
 
 The ``simples`` and ``ccc`` APIs are commercial-only and always require
-the ``-d`` and ``RWS_TOKEN`` parameters::
+the ``-d`` and ``RWS_TOKEN`` parameters:
+
+.. code-block:: bash
 
     export RWS_TOKEN="<my-token>"
     receita get list.csv --type simples -d 20 --output simples_data
@@ -121,7 +156,9 @@ Alternative base URL
 
 The ``--base-url`` option queries a base URL other than the default
 (``https://www.receitaws.com.br/v1``), for when the service provides a
-dedicated address::
+dedicated address:
+
+.. code-block:: bash
 
     receita get list.csv --base-url https://dedicated-address/v1 -d 1 --output cnpj_data
 
@@ -136,11 +173,13 @@ If you did not used the default directory to save the data, you need to
 inform it. You can also say the directory where the generated files will
 be stored.
 
-.. code::
+.. code-block:: bash
 
     receita build --input cnpj_data --output results
 
-The API type must match the type used in the ``get`` command::
+The API type must match the type used in the ``get`` command:
+
+.. code-block:: bash
 
     receita build --type simples --input simples_data --output results
     receita build --type ccc --input ccc_data --output results
@@ -168,21 +207,3 @@ Getting Help
 
 You can always use the ``--help`` option to get help about a command.
 You can also use it with the subcommands, like ``receita build --help``.
-
-Docker Usage
-++++++++++++
-
-You can use the Docker image to run commands without installing anything
-locally. The official image is published on Docker Hub::
-
-    docker pull leads2b/receita-tools
-
-Alternatively, you can build the image locally::
-
-    docker build -t leads2b/receita-tools .
-
-Then run commands by mounting a local directory for data::
-
-    docker run --rm -v $(pwd):/data leads2b/receita-tools get list.csv --output data -d 20
-    docker run --rm -v $(pwd):/data leads2b/receita-tools build --input data --output results
-    docker run --rm -v $(pwd):/data -e RWS_TOKEN="<my-token>" leads2b/receita-tools get list.csv --type simples -d 20

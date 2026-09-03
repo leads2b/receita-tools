@@ -1,4 +1,4 @@
-# [3.0.0](https://github.com/leads2b/receita-tools/compare/2.2.0...3.0.0) (2026-06-12)
+# [3.0.0](https://github.com/leads2b/receita-tools/compare/2.2.0...3.0.0) (2026-09-03)
 
 
 ### features
