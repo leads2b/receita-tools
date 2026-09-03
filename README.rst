@@ -3,7 +3,7 @@ receita-tools
 
 |pypi| |license|
 
-**Idiomas do README:** |ptbr| `Português`_ · |en| `English`_
+**Idiomas do README:** 🇧🇷 `Português`_ · 🇺🇸 `English`_
 
 Um conjunto de ferramentas para permitir a automatização das informações
 das empresas do Brasil do site da Receita Federal Brasileira. Este conjunto
@@ -18,12 +18,6 @@ das empresas que deseja.
 
 .. _Português: https://github.com/leads2b/receita-tools/blob/master/README.rst
 .. _English: https://github.com/leads2b/receita-tools/blob/master/README.en.rst
-
-.. |ptbr| image:: https://flagicons.lipis.dev/flags/4x3/br.svg
-    :height: 20px
-
-.. |en| image:: https://flagicons.lipis.dev/flags/4x3/us.svg
-    :height: 20px
 
 Instalação
 ----------

@@ -3,7 +3,7 @@ receita-tools
 
 |pypi| |license|
 
-**README Languages:** |ptbr| `Português`_ · |en| `English`_
+**README Languages:** 🇧🇷 `Português`_ · 🇺🇸 `English`_
 
 Set of tools to allow automated information recovery from the
 Secretary of the Federal Revenue of Brazil website. This set of
@@ -18,12 +18,6 @@ companies you like.
 
 .. _Português: https://github.com/leads2b/receita-tools/blob/master/README.rst
 .. _English: https://github.com/leads2b/receita-tools/blob/master/README.en.rst
-
-.. |ptbr| image:: https://flagicons.lipis.dev/flags/4x3/br.svg
-    :height: 20px
-
-.. |en| image:: https://flagicons.lipis.dev/flags/4x3/us.svg
-    :height: 20px
 
 Installation
 ------------
