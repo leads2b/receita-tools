@@ -88,6 +88,11 @@ contendo informações sobre os CNPJs que devem ser consultados. Este arquivo
 deve ter ao menos uma coluna, e a primeira deve ser aquela que contém os CNPJs
 das empresas que deseja as informações.
 
+São aceitos tanto o formato numérico tradicional quanto o novo formato
+alfanumérico, com ou sem pontuação. Em ambos os casos os dois últimos
+caracteres são os dígitos verificadores, que são conferidos antes da consulta
+para evitar requisições desnecessárias ao webservice.
+
 Utiliza o comando ``receita get cnpj.csv`` para iniciar as consultas baseado
 neste aquivo CSV. Por padrão os dados recuperados serão salvos no diretório
 ``data`` relativo ao diretório de onde o comando foi executado. É possível
