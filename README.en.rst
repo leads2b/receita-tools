@@ -3,7 +3,7 @@ receita-tools
 
 |pypi| |license|
 
-**README Laguages:** |ptbr| |en|
+**README Languages:** |ptbr| `Português`_ · |en| `English`_
 
 Set of tools to allow automated information recovery from the
 Secretary of the Federal Revenue of Brazil website. This set of
@@ -16,12 +16,13 @@ companies you like.
 
 .. |license| image:: https://img.shields.io/dub/l/vibe-d.svg?style=flat-square
 
+.. _Português: https://github.com/leads2b/receita-tools/blob/master/README.rst
+.. _English: https://github.com/leads2b/receita-tools/blob/master/README.en.rst
+
 .. |ptbr| image:: https://flagicons.lipis.dev/flags/4x3/br.svg
-    :target: https://github.com/leads2b/receita-tools/blob/master/README.rst
     :height: 20px
 
 .. |en| image:: https://flagicons.lipis.dev/flags/4x3/us.svg
-    :target: https://github.com/leads2b/receita-tools/blob/master/README.en.rst
     :height: 20px
 
 Installation
@@ -103,7 +104,7 @@ The ``--type`` option lets you choose which API to query:
 * ``simples``: Simples Nacional and SIMEI data;
 * ``ccc``: Cadastro Centralizado de Contribuinte (State Tax Registration) data.
 
-You can use the webservice Public API or the Comercial API. Below we describe
+You can use the webservice Public API or the Commercial API. Below we describe
 how to use each of them.
 
 Public API
@@ -118,10 +119,10 @@ are ready to go. For example, to get data from the companies listed in the
 
     receita get list.csv --output cnpj_data
 
-Comercial API
-*************
+Commercial API
+**************
 
-To use the Comercial API you need to provide two extra informations: the
+To use the Commercial API you need to provide two extra informations: the
 maximum data deprecation value (in days) and the API access token. You can
 generate an access token by accessing your control panel at the ReceitaWS
 website.
