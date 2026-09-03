@@ -11,9 +11,6 @@ tools will use the `receitaws.com.br <http://receitaws.com.br>`_
 web service to retrieve information about all Brazilian
 companies you like.
 
-.. contents::
-   :local:
-
 .. |pypi| image:: https://img.shields.io/pypi/v/receita-tools.svg?style=flat-square
     :target: https://pypi.python.org/pypi/receita-tools
 

@@ -17,6 +17,9 @@ class BaseCSV(object):
         )
         self.writer.writeheader()
 
+    def close(self):
+        self._f.close()
+
 
 class _CompaniesCSV(BaseCSV):
     _filename = "companies"
@@ -298,12 +301,18 @@ class Build(object):
         visitors = [cls(self.output) for cls in visitor_classes]
 
         # Run by each company populating the CSV files
-        for path in glob.glob(os.path.join(self.input, "%s_*.json" % self.api_type)):
-            with open(path, "r") as f:
-                try:
-                    data = json.load(f)
-                except ValueError:
-                    continue
+        try:
+            for path in glob.glob(
+                os.path.join(self.input, "%s_*.json" % self.api_type)
+            ):
+                with open(path, "r") as f:
+                    try:
+                        data = json.load(f)
+                    except ValueError:
+                        continue
 
-                for visitor in visitors:
-                    visitor.visit(data)
+                    for visitor in visitors:
+                        visitor.visit(data)
+        finally:
+            for visitor in visitors:
+                visitor.close()

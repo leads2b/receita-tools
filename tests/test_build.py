@@ -114,3 +114,37 @@ class TestBuildCNPJBackwardCompat(object):
         """Ensure Build without api_type still works (backward compat)."""
         build = Build(str(tmp_path), str(tmp_path))
         assert build.api_type == "cnpj"
+
+
+class TestBuildClosesOutputFiles(object):
+    def test_build_closes_visitor_files(self, tmp_path, monkeypatch):
+        """Output handles must be closed by run(), not left to the GC."""
+        from receita.tools import build as build_module
+
+        created = []
+
+        class SpyCSV(build_module.BaseCSV):
+            _filename = "spy"
+            _fields = ["cnpj"]
+
+            def __init__(self, output):
+                super(SpyCSV, self).__init__(output)
+                created.append(self)
+
+            def visit(self, data):
+                self.writer.writerow({"cnpj": data.get("cnpj")})
+
+        monkeypatch.setitem(build_module.VISITORS, "cnpj", [SpyCSV])
+
+        input_dir = tmp_path / "input"
+        input_dir.mkdir()
+        with open(input_dir / "cnpj_03420926004979.json", "w") as f:
+            json.dump({"cnpj": "03420926004979"}, f)
+
+        output_dir = tmp_path / "output"
+        output_dir.mkdir()
+
+        Build(str(input_dir), str(output_dir), api_type="cnpj").run()
+
+        assert created, "visitor was never instantiated"
+        assert all(visitor._f.closed for visitor in created)

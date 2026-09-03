@@ -11,9 +11,6 @@ de ferramentas utiliza o webservice
 `receitaws.com.br <http://receitaws.com.br>`_ para recuperar as informações
 das empresas que deseja.
 
-.. contents::
-   :local:
-
 .. |pypi| image:: https://img.shields.io/pypi/v/receita-tools.svg?style=flat-square
     :target: https://pypi.python.org/pypi/receita-tools
 
