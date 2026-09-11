@@ -135,33 +135,3 @@ class Get(object):
         if self._check_digit(base) != int(digits[0]):
             return False
         return self._check_digit(base + digits[0]) == int(digits[1])
-
-        tam = 12
-        nums = cnpj[:tam]
-        digs = cnpj[tam:]
-
-        tot = 0
-        pos = tam - 7
-        for i in range(tam, 0, -1):
-            tot = tot + int(nums[tam - i]) * pos
-            pos = pos - 1
-            if pos < 2:
-                pos = 9
-        res = 0 if tot % 11 < 2 else 11 - (tot % 11)
-        if res != int(digs[0]):
-            return False
-
-        tam = tam + 1
-        nums = cnpj[:tam]
-        tot = 0
-        pos = tam - 7
-        for i in range(tam, 0, -1):
-            tot = tot + int(nums[tam - i]) * pos
-            pos = pos - 1
-            if pos < 2:
-                pos = 9
-        res = 0 if tot % 11 < 2 else 11 - (tot % 11)
-        if res != int(digs[1]):
-            return False
-
-        return True
