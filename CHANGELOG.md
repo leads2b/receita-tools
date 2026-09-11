@@ -1,4 +1,18 @@
-# [3.0.0](https://github.com/leads2b/receita-tools/compare/2.2.0...3.0.0) (2026-09-03)
+# [3.0.1](https://github.com/leads2b/receita-tools/compare/3.0.0...3.0.1) (2026-09-11)
+
+
+### build
+
+* publish the Docker image for **linux/arm64** as well as **linux/amd64**, so it runs
+  natively on Apple Silicon and ARM servers instead of under emulation
+
+### refactor
+
+* remove the unreachable numeric checksum left in `Get.valid()` when the alphanumeric
+  support was added; the behaviour is unchanged as the code could never run
+
+
+# [3.0.0](https://github.com/leads2b/receita-tools/compare/2.2.0...3.0.0) (2026-09-11)
 
 
 ### features
