@@ -7,4 +7,4 @@ progressbar2==4.6.0
 python-utils==4.0.1
 requests==2.34.2
 typing_extensions==4.16.0
-urllib3==2.7.0
+urllib3==2.8.0
